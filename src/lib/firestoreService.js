@@ -16,7 +16,7 @@ export async function createParticipant(gender) {
   return ref.id
 }
 
-export async function saveTrialsBatch(participantId, trials, block) {
+export async function saveBlockTrials(participantId, block, trials) {
   const batch = writeBatch(db)
   const trialsRef = collection(db, 'participants', participantId, 'trials')
   for (const trial of trials) {
