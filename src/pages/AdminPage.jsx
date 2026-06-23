@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '../context/AuthContext'
 import AdminDashboard from '../components/admin/AdminDashboard'
 import ParticipantsTable from '../components/admin/ParticipantsTable'
+import ChartsPanel from '../components/admin/ChartsPanel'
 import { getAllParticipants } from '../lib/firestoreService'
 import LoadingSpinner from '../components/shared/LoadingSpinner'
 
@@ -27,7 +28,7 @@ export default function AdminPage() {
       {loading ? <LoadingSpinner /> : (
         activeTab === 'data'
           ? <ParticipantsTable participants={participants} onRefresh={fetchParticipants} />
-          : <div style={{ color: 'var(--color-text-muted)', textAlign: 'center', padding: 40 }}>Gráficos — Task 11</div>
+          : <ChartsPanel participants={participants} />
       )}
     </AdminDashboard>
   )
