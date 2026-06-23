@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="350" viewBox="0 0 300 350">
+  <rect width="300" height="350" fill="#1A2D42"/>
+  <circle cx="150" cy="140" r="85" fill="#6B7888"/>
+  <rect x="75" y="240" width="150" height="110" rx="10" fill="#6B7888"/>
+  <text x="150" y="330" font-size="18" fill="#0D1B2A" text-anchor="middle" font-family="sans-serif">M_PLACEHOLDER</text>
+</svg>
