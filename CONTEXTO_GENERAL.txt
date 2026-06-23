@@ -1,0 +1,172 @@
+
+Quiero que revises el completo este directorio principal que tienes acceso quiero que revises cada uno de los documentos de información que te has juntado Dentro de este chat y además de las imágenes que se encuentran del mismo quiero que te indagues primero de qué es lo que tienes que desarrollar Y a partir del conocimiento previo de todo lo que se solicite y se requiere quiero que memes un plan de estrategia en donde tú vas a hacer lo siguiente:
+Vas a diseñar una web totalmente funcional y real en dónde vas a realizar lo siguiente vas a realizar una especie de juego en donde vas a tener las fases como se está presentando en el desglose de documento es decir al momento que alguien comienza a interactuar a través del enlace va a tener la opción de elegir si es que es hombre o mujer y comienza a participar se va a sincronizar y guardar toda la información va a haber un control total doble justamente todo este apartado va a haber un béisbol interno en donde también se puede eliminar editar o sesga este tipo de información pero únicamente a través de la parte administrativa es decir en un panel especializado de ahí directamente solo de la parte normal puedes tendrá la información como se estaría viendo de cualquier forma la idea es que la página sea totalmente visualmente atractiva responsive tanto para lo que sería web como móvil y cualquier tipo de dispositivo se debe ir adaptando conforme al tamaño que se debe tener justamente la página se tiene que hacer con lo que sería tema de la usabilidad en todo el sitio de la forma básica y esencial para que justamente funcione y cumpla con esa normativa La idea es que la página web pueda enfatizar lo que se intenta desarrollar a través del propio conocimiento que tú tienes de ella cuando tú comiences a salir el plan también te voy a enviar lo que son los tokens y las conexiones para que tú tengas directamente en información de cómo tú vas a despegar y de project directamente este proyecto además como tú ya tienes acceso a lo que es la parte de gija vas a crear un repositorio en el cual Ya te estaré mandando el indirecto y tú simplemente vas a comenzar a subir los cambios para justamente tener este control de versiones y vas a ir comiendo cada uno de los cambios que vayamos haciendo pero eso es mucho más adelante en este momento dudo que me vas a presentar es detalladamente el desglose de qué es lo que tú entendiste lo que debes hacer cómo lo vas a hacer Cuál va a ser esa trazabilidad entre cada una de esas etapas Y de qué manera Cuál va a ser el resultado que tú deseas obtener una vez entendido todo requerimientos en base al contexto que se te ha presentado es decir tienes que dar información detallada de cómo va a ser el paso a paso.
+
+Como esta parte de las imágenes que tú estás viendo prácticamente va quemado está muy bien ya pero quiero que tú me ayudes justamente en esa parte dentro del Análisis que tú vas a hacer al momento que tú examinas toda la composición de este proyecto que ahorita mismo está vacío porque esta es justamente la primera petición que quiero que tú sepas que se encuentre algunas imágenes pero no se encuentran muchas más yo Considero que tú podrías tomar muchas más que tú tomes de muestra indagando extrayendo y que tú simplemente extraigas con un curro de la forma en la que tú quieras Una vez que tú puedas justamente desde la web y tú también Añadir más imágenes ya eso sí me gustaría como Esto va prácticamente quemado y yo quiero que hagas la página web eso me olvida decirte las tecnologías que vamos a utilizar son las siguientes son las siguiebges tecnologiss:
+
+- La web debe ser hechs en React.
+- Se va usar firebase.
+Y eso sería como lo principal de cómo se va a desarrollar esta web entonces tú a través de todo este entendimiento que sabes que se va a desarrollar tú tienes que crear tanto las skills el conocimiento y la forma brecha en la que tú a partir de este punto tú vayas a tener ese conocimiento Exacto En dónde se encuentra cada cosa para que justamente tú no tengas que volver a revisar el conocimiento previo ni el contexto sino ya directamente continuando con el desarrollo entonces a partir desde el momento del inicio en el que todo esto te dé el okay Y ya te diga listo comienza a programar ahí tú vas a desarrollar un md o lo que tú quieras en donde tú vas a ir añadiendo cada uno de la brecha del conocimiento principal de cómo es de funcionamiento de la web o sea directamente como tú lo estás haciendo Y eso es lo que tú tienes que hacer o que funcione totalmente ahora bien como ya tienes la parte de la información también tienes que desarrollar.
+
+También como esto se va a subir a guiza también quiero que hagas un ritmo en donde se va a especificar exactamente todo el funcionamiento y cómo se debe desplegar este proyecto y De igual forma cómo se hacen los deploys para cuando salga un cambio poderlo renderizar y que se vea justamente ya despegado en la web.
+En dónde puede editar o eliminar los registros dependiendo justamente cómo lo haga o sea necesario es lo único que va a cambiar pero también tienes acceso visual en dónde se puede ver justamente estadísticas ya quiero que se enfatiza y lo que es necesario dentro de todo este desarrollo es que se pueda demostrar gráficamente y con estadísticas justamente la teoría que se está hablando dentro del contexto.
+
+
+=========================================
+🎯 Objetivo del Experimento
+
+El estudio busca evaluar la Memoria de Trabajo Social para responder a una pregunta clave: ¿Tenemos mejor memoria para reconocer rostros del sexo opuesto? Se medirá si los hombres recuerdan mejor las caras de mujeres y si las mujeres recuerdan mejor las caras de hombres.
+🧠 ¿Cómo funciona la tarea? (Paradigma N-Back)
+
+Los participantes verán una secuencia de rostros en la pantalla y deberán presionar la barra ESPACIO solo cuando el rostro actual coincida con uno anterior, según el nivel de dificultad:
+
+    Nivel 1 (Fácil): El rostro actual es igual al de justo antes (Ej: Cara A ➡️ Cara A).
+
+    Nivel 2 (Difícil): El rostro actual es igual al de hace dos ensayos (Ej: Cara A ➡️ Cara B ➡️ Cara A).
+
+⏱️ Estructura de cada intento (Ensayo):
+
+Cada estímulo dura un total de 3.5 segundos distribuidos así:
+
+    Cruz de fijación (+): 500 ms (para centrar la mirada).
+
+    Aparición del Rostro: 1000 ms.
+
+    Ventana de respuesta: 2000 ms (tiempo máximo para presionar ESPACIO).
+
+🖼️ Estímulos y Bloques
+
+    Las caras: Se usarán exactamente 12 rostros neutros (6 de mujeres y 6 de hombres). Esta cantidad evita que la tarea sea muy fácil o que dependa de la memoria a largo plazo.
+
+    Estructura del experimento: Habrá 2 bloques (Bloque N-1 y Bloque N-2). Cada uno tiene:
+
+        5 ensayos de práctica (para que el sujeto entienda la regla).
+
+        20 ensayos reales, donde aparecerán 3 objetivos femeninos (coincidencias) y 3 objetivos masculinos, mezclados entre 14 caras que no se repiten (no objetivos).
+
+📊 ¿Qué datos vas a registrar? (Variables)
+
+Al final del experimento, tu programa o base de datos debe arrojarte:
+
+    Datos del participante: Su género (Hombre / Mujer).
+
+    Respuestas: Si acertó (1), falló (0), si omitió responder, o si presionó el botón cuando no debía (falsa alarma).
+
+    Tiempo de reacción: Cuántos milisegundos tardó en presionar la tecla.
+
+📈 La variable clave: Índice de Afinidad Facial (IAF)
+
+Para saber si se cumple tu hipótesis, restarás la precisión de un tipo de rostro con el otro.
+
+    Si un hombre tiene un IAF positivo, significa que recordó mejor a las mujeres.
+
+    Si una mujer tiene un IAF positivo, significa que recordó mejor a los hombres.
+
+💡 Lo que esperas encontrar (Hipótesis)
+
+    Efecto de atracción: Hombres rinden mejor con caras de mujeres; mujeres rinden mejor con caras de hombres.
+
+    Efecto de dificultad: El nivel N-2 tendrá peor rendimiento (más errores y más lentitud) que el N-1.
+
+    Velocidad: Los participantes responderán más rápido a las caras del sexo opuesto.
+=========================================
+que ya se hizo?:
+
+zeus   ~/Documentos/N-Back  npx -y skills add vercel-labs/agent-skills --skill web-design-guidelines --agent claude-code -g
+
+███████╗██╗  ██╗██╗██╗     ██╗     ███████╗
+██╔════╝██║ ██╔╝██║██║     ██║     ██╔════╝
+███████╗█████╔╝ ██║██║     ██║     ███████╗
+╚════██║██╔═██╗ ██║██║     ██║     ╚════██║
+███████║██║  ██╗██║███████╗███████╗███████║
+╚══════╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚══════╝
+
+┌   skills
+│
+◇  Source: https://github.com/vercel-labs/agent-skills.git
+│
+◇  Found 9 skills
+│
+●  Selected 1 skill: web-design-guidelines
+
+│
+◇  Installation Summary ───────────────────╮
+│                                          │
+│  ~/.agents/skills/web-design-guidelines  │
+│    copy → Claude Code                    │
+│                                          │
+├──────────────────────────────────────────╯
+│
+◇  Security Risk Assessments ───────────────────────────────────────────╮
+│                                                                       │
+│                         Gen               Socket            Snyk      │
+│  web-design-guidelines  Safe              0 alerts          Med Risk  │
+│                                                                       │
+│  Details: https://skills.sh/vercel-labs/agent-skills                  │
+│                                                                       │
+├───────────────────────────────────────────────────────────────────────╯
+│
+◇  Proceed with installation?
+│  Yes
+│
+◇  Installation complete
+
+│
+◇  Installed 1 skill ──────────────────────────╮
+│                                              │
+│  ✓ web-design-guidelines (copied)            │
+│    → ~/.claude/skills/web-design-guidelines  │
+│                                              │
+├──────────────────────────────────────────────╯
+
+│
+└  Done!  Review skills before use; they run with full agent permissions.
+
+
+│
+│  One-time prompt - you won't be asked again if you dismiss.
+│
+◇  Install the find-skills skill? It helps your agent discover and suggest
+skills.
+│  Yes
+
+│
+◇  Installing find-skills skill...
+
+┌   skills
+│
+◇  Source: https://github.com/vercel-labs/skills.git
+│
+◇  Found 1 skill
+│
+●  Selected 1 skill: find-skills
+
+│
+◇  Installation Summary ─────────╮
+│                                │
+│  ~/.agents/skills/find-skills  │
+│    copy → Claude Code          │
+│                                │
+├────────────────────────────────╯
+│
+◇  Security Risk Assessments ─────────────────────────────────╮
+│                                                             │
+│               Gen               Socket            Snyk      │
+│  find-skills  Safe              0 alerts          Med Risk  │
+│                                                             │
+│  Details: https://skills.sh/vercel-labs/skills              │
+│                                                             │
+├─────────────────────────────────────────────────────────────╯
+│
+◇  Installation complete
+
+│
+◇  Installed 1 skill ────────────────╮
+│                                    │
+│  ✓ find-skills (copied)            │
+│    → ~/.claude/skills/find-skills  │
+│                                    │
+├────────────────────────────────────╯
+
+│
+└  Done!  Review skills before use; they run with full agent permissions.

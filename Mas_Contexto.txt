@@ -1,0 +1,104 @@
+Proyecto: Plataforma Experimental Social Working Memory (N-Back Facial)
+1. ALCANCE Y COMPRENSIÓN DEL PROYECTO
+
+El objetivo es transformar un paradigma de psicología cognitiva y neurociencia experimental (N-Back de rostros) en una aplicación web real, interactiva, responsive y gamificada utilizando React para el Frontend y Firebase (Auth, Firestore, Storage, Hosting) para el Backend y despliegue.
+
+El sistema se divide de forma estricta en dos entornos:
+
+    Entorno del Participante (Experimento/Juego): Una interfaz limpia, sin distracciones, enfocada en la usabilidad absoluta y el cumplimiento de los tiempos de respuesta de nivel experimental (cronometrado en milisegundos).
+
+    Entorno de Administración (Dashboard): Un panel protegido donde el investigador visualiza estadísticas avanzadas, gráficos interactivos que validan o refutan las hipótesis del experimento, y un CRUD para gestionar (editar/eliminar) los registros recopilados.
+
+2. TRAZABILIDAD DEL PASO A PASO (ROADMAP DE DESARROLLO)
+
+[Fase 1: Configuración] ──> [Fase 2: Motor del Juego] ──> [Fase 3: Sincronización Firebase] ──> [Fase 4: Dashboard y Gráficos] ──> [Fase 5: README & Deploy]
+
+FASE 1: Configuración Inicial e Infraestructura de Estímulos
+
+    Repositorio GitHub: Creación de la estructura del proyecto en React (Vite o Create React App). Configuración de carpetas (/components, /context, /hooks, /assets).
+
+    Inyección de Estímulos (Imágenes): Como mencionas que las imágenes van "quemadas" (estáticas en el cliente para evitar retrasos de red que arruinen los milisegundos de medición), implementaré un script para precargar y cachear las imágenes de los 12 rostros base (6 hombres, 6 mujeres) en alta definición, garantizando neutralidad facial. Añadiré placeholders vectoriales estéticos y automatizados para pruebas previas.
+
+FASE 2: Desarrollo del Flujo del Experimento (UI/UX del Participante)
+
+    Pantalla de Bienvenida: Captura del Género del Participante (Hombre / Mujer) mediante un selector visual elegante y responsive.
+
+    Bloque 1: N-Back 1 (Fácil)
+
+        5 Ensayos de Práctica (con feedback inmediato para aprendizaje).
+
+        20 Ensayos Experimentales (3 objetivos femeninos, 3 masculinos, 14 no objetivos).
+
+    Bloque 2: N-Back 2 (Difícil)
+
+        5 Ensayos de Práctica.
+
+        20 Ensayos Experimentales (Misma distribución pero buscando la coincidencia 2 pasos atrás).
+
+    Lógica del Temporizador Experimental (Estricto):
+
+        Cruz de fijación (+): 500 ms.
+
+        Rostro visible: 1000 ms.
+
+        Ventana de captura de respuesta (Escucha del evento keydown - Barra Espaciadora): 2000 ms adicionales.
+
+        Tiempo total por ciclo: 3500 ms.
+
+FASE 3: Captura de Datos y Sincronización con Firebase Firestore
+
+En cada uno de los 40 ensayos reales se capturan las siguientes variables en un estado de React y se envían en ráfaga (o al final de cada bloque) a Firestore para evitar latencias durante el juego:
+
+    id_participante, genero_participante, bloque_n (1 o 2), num_ensayo.
+
+    genero_rostro_estimulo (Masculino / Femenino).
+
+    es_objetivo (Booleano).
+
+    respuesta_usuario (Presionó Espacio / No presionó).
+
+    exactitud (1 = Acierto, 0 = Error/Falsa alarma/Omisión).
+
+    tiempo_reaccion (Milisegundos exactos medidos con performance.now()).
+
+FASE 4: Dashboard Administrativo y Visualización Estadística (El Núcleo Analítico)
+
+Creación de una ruta protegida /admin con las siguientes características visuales y funcionales:
+
+    Tabla de Datos (CRUD): Visualización de todas las sesiones de participantes con opciones de Eliminar (limpiar datos ruidosos) y Editar metadatos.
+
+    Módulo de Gráficos (Gráficos Interactivos de Tendencia):
+
+        Gráfico de Barras - Exactitud por Género: Comparación de precisión de hombres vs. mujeres ante rostros masculinos vs. femeninos. Aquí se demostrará visualmente si hay ventaja hacia el sexo opuesto.
+
+        Gráfico de Dispersión / Líneas - Tiempos de Reacción: Mapeo de la velocidad de respuesta (en ms) para evaluar la ventaja atencional hacia rostros del sexo opuesto.
+
+        Cálculo del IAF en Tiempo Real: Un indicador macro que promedia el Índice de Afinidad Facial total de la base de datos global. Si el widget del IAF global es positivo, la interfaz mostrará: "Teoría Validada: Existe una ventaja adaptativa de memoria hacia el sexo opuesto".
+
+        Gráfico de Carga de Memoria: Comparación directa del decaimiento del rendimiento entre N-1 y N-2.
+
+FASE 5: Documentación (README.md) y Estrategia de CI/CD (Despliegue)
+
+    Creación del archivo README.md final que explica los comandos de instalación (npm install, npm run dev), la arquitectura de la base de datos de Firebase, y las reglas de seguridad.
+
+    Guía de despliegue automatizado en Firebase Hosting o Vercel mediante GitHub Actions, permitiendo que cada git push origin main actualice la web de inmediato.
+
+3. ARQUITECTURA DE DATOS EN FIREBASE (Estructura Interna Reservada)
+
+Para mantener la velocidad del juego, utilizaremos una estructura de subcolecciones optimizada en Firestore:
+
+/participantes (Colección Principal)
+   └── {id_participante} (Documento: fecha, genero_participante, edad, iaf_calculado)
+        └── /ensayos (Subcolección)
+             └── {id_ensayo} (Documento: bloque, rostro_id, genero_rostro, tiempo_reaccion, exactitud, tipo_error)
+
+4. RESULTADO FINAL ESPERADO
+
+Al finalizar el desarrollo, obtendremos una plataforma web premium, fluida y moderna, que se adapta nativamente a un iPad, un teléfono móvil o una PC de escritorio. Un usuario común sentirá que está jugando un test de agilidad mental rápido, mientras que por detrás, el sistema estará recolectando micro-datos neuropsicológicos de alta precisión listos para ser analizados en el panel científico del administrador.
+
+¿Cómo procederemos?
+El conocimiento ya está perfectamente estructurado y sellado en este chat. Quedo a la espera de que me compartas:
+
+    Los tokens/credenciales de configuración de tu proyecto de Firebase.
+
+    El enlace o estructura del repositorio de GitHub para prepararme para los commits.
