@@ -1,5 +1,5 @@
 import { useReducer, useEffect, useRef, useCallback } from 'react'
-import { generateSequence, PRACTICE_SEQUENCE } from '../lib/sequences'
+import { generateSequence, PRACTICE_SEQUENCE_N1, PRACTICE_SEQUENCE_N2 } from '../lib/sequences'
 import { preloadImages, FACE_MANIFEST } from '../lib/imagePreloader'
 import { classifyError } from '../lib/statistics'
 
@@ -95,7 +95,9 @@ export function useExperimentEngine(n, isPractice = false) {
   const start = useCallback(async () => {
     dispatch({ type: 'PRELOADING' })
     const images = await preloadImages()
-    const sequence = isPractice ? PRACTICE_SEQUENCE : generateSequence(n, FACE_MANIFEST)
+    const sequence = isPractice
+      ? (n === 1 ? PRACTICE_SEQUENCE_N1 : PRACTICE_SEQUENCE_N2)
+      : generateSequence(n, FACE_MANIFEST)
     dispatch({ type: 'LOADED', images, sequence })
   }, [n, isPractice])
 

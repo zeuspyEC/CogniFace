@@ -22,7 +22,7 @@ export default function PracticeBlock({ n, onComplete }) {
       <div style={styles.progress}>Práctica {trialIndex}/{totalTrials}</div>
       {phase === 'fixation' && <FixationCross />}
       {(phase === 'stimulus' || phase === 'response') && imageSrc && (
-        <StimulusDisplay imageSrc={imageSrc} faceId={currentTrial?.face_id} />
+        <StimulusDisplay imageSrc={imageSrc} faceId={currentTrial?.face_id} showHint={phase === 'response'} />
       )}
       {phase === 'response' && lastFeedback && (
         <div

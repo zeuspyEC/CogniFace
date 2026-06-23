@@ -129,10 +129,20 @@ export function generateSequence(n, faceManifest) {
   return buildSequence(n, females, males)
 }
 
-export const PRACTICE_SEQUENCE = [
+// N=1: target cuando face_id == el de 1 posición atrás
+export const PRACTICE_SEQUENCE_N1 = [
+  { id: 'p0', face_id: 'f01', face_gender: 'female', is_target: false, src: null },
+  { id: 'p1', face_id: 'f01', face_gender: 'female', is_target: true,  src: null }, // f01 == p0.face_id ✓
+  { id: 'p2', face_id: 'm01', face_gender: 'male',   is_target: false, src: null }, // m01 != f01 ✓
+  { id: 'p3', face_id: 'm01', face_gender: 'male',   is_target: true,  src: null }, // m01 == p2.face_id ✓
+  { id: 'p4', face_id: 'f02', face_gender: 'female', is_target: false, src: null }, // f02 != m01 ✓
+]
+
+// N=2: target cuando face_id == el de 2 posiciones atrás
+export const PRACTICE_SEQUENCE_N2 = [
   { id: 'p0', face_id: 'f01', face_gender: 'female', is_target: false, src: null },
   { id: 'p1', face_id: 'm01', face_gender: 'male',   is_target: false, src: null },
-  { id: 'p2', face_id: 'f01', face_gender: 'female', is_target: true,  src: null },
-  { id: 'p3', face_id: 'm02', face_gender: 'male',   is_target: false, src: null },
-  { id: 'p4', face_id: 'm01', face_gender: 'male',   is_target: true,  src: null },
+  { id: 'p2', face_id: 'f01', face_gender: 'female', is_target: true,  src: null }, // f01 == p0.face_id ✓
+  { id: 'p3', face_id: 'm01', face_gender: 'male',   is_target: true,  src: null }, // m01 == p1.face_id ✓
+  { id: 'p4', face_id: 'f02', face_gender: 'female', is_target: false, src: null }, // f02 != p2.face_id=f01 ✓
 ]

@@ -1,4 +1,4 @@
-export default function StimulusDisplay({ imageSrc, faceId }) {
+export default function StimulusDisplay({ imageSrc, faceId, showHint = false }) {
   return (
     <div style={s.container}>
       <div key={faceId} className="face-appear" style={s.circle}>
@@ -9,7 +9,7 @@ export default function StimulusDisplay({ imageSrc, faceId }) {
           draggable={false}
         />
       </div>
-      <p style={s.hint}>ESPACIO = mismo rostro</p>
+      <p style={{ ...s.hint, opacity: showHint ? 1 : 0 }}>ESPACIO = mismo rostro</p>
     </div>
   )
 }

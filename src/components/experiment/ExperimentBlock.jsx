@@ -22,7 +22,7 @@ export default function ExperimentBlock({ n, onComplete }) {
       <div style={styles.progress}>{trialIndex}/{totalTrials}</div>
       {phase === 'fixation' && <FixationCross />}
       {(phase === 'stimulus' || phase === 'response') && imageSrc && (
-        <StimulusDisplay imageSrc={imageSrc} faceId={currentTrial?.face_id} />
+        <StimulusDisplay imageSrc={imageSrc} faceId={currentTrial?.face_id} showHint={phase === 'response'} />
       )}
     </div>
   )
