@@ -1,10 +1,14 @@
 import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
+import LoadingSpinner from '../shared/LoadingSpinner'
 
 export default function AdminLogin() {
-  const { signIn } = useAuth()
+  const { signIn, user, loading: authLoading } = useAuth()
   const navigate = useNavigate()
+
+  if (authLoading) return <LoadingSpinner />
+  if (user) return <Navigate to="/admin" replace />
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)

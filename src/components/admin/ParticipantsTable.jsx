@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import { deleteParticipant, getParticipantTrials } from '../../lib/firestoreService'
 
 export default function ParticipantsTable({ participants, onRefresh }) {
@@ -43,8 +43,8 @@ export default function ParticipantsTable({ participants, onRefresh }) {
         </thead>
         <tbody>
           {participants.map(p => (
-            <>
-              <tr key={p.id} style={styles.tr}>
+            <Fragment key={p.id}>
+              <tr style={styles.tr}>
                 <td style={styles.td}>{p.id.slice(0, 8)}…</td>
                 <td style={styles.td}>{p.gender === 'male' ? '♂ Hombre' : '♀ Mujer'}</td>
                 <td style={styles.td}>{p.timestamp?.toDate().toLocaleDateString('es') ?? '—'}</td>
@@ -65,7 +65,7 @@ export default function ParticipantsTable({ participants, onRefresh }) {
                 </td>
               </tr>
               {detailId === p.id && (
-                <tr key={`${p.id}-detail`}>
+                <tr>
                   <td colSpan={7} style={styles.detailCell}>
                     <div style={styles.detailGrid}>
                       {trials.map(t => (
@@ -81,7 +81,7 @@ export default function ParticipantsTable({ participants, onRefresh }) {
                   </td>
                 </tr>
               )}
-            </>
+            </Fragment>
           ))}
         </tbody>
       </table>

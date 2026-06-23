@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { generateSequence, PRACTICE_SEQUENCE } from '../lib/sequences'
+import { generateSequence, PRACTICE_SEQUENCE_N1, PRACTICE_SEQUENCE_N2 } from '../lib/sequences'
 import { FACE_MANIFEST } from '../lib/imagePreloader'
 
 describe('generateSequence N-1', () => {
@@ -74,12 +74,24 @@ describe('generateSequence N-2', () => {
   })
 })
 
-describe('PRACTICE_SEQUENCE', () => {
-  it('tiene 5 trials', () => {
-    expect(PRACTICE_SEQUENCE).toHaveLength(5)
+describe('PRACTICE_SEQUENCE_N1', () => {
+  it('tiene 5 trials', () => expect(PRACTICE_SEQUENCE_N1).toHaveLength(5))
+  it('targets válidos para N=1: face_id == el trial anterior', () => {
+    PRACTICE_SEQUENCE_N1.forEach((t, i) => {
+      if (t.is_target) {
+        expect(PRACTICE_SEQUENCE_N1[i - 1].face_id).toBe(t.face_id)
+      }
+    })
   })
+})
 
-  it('tiene al menos 1 target', () => {
-    expect(PRACTICE_SEQUENCE.some(t => t.is_target)).toBe(true)
+describe('PRACTICE_SEQUENCE_N2', () => {
+  it('tiene 5 trials', () => expect(PRACTICE_SEQUENCE_N2).toHaveLength(5))
+  it('targets válidos para N=2: face_id == el trial de 2 posiciones atrás', () => {
+    PRACTICE_SEQUENCE_N2.forEach((t, i) => {
+      if (t.is_target) {
+        expect(PRACTICE_SEQUENCE_N2[i - 2].face_id).toBe(t.face_id)
+      }
+    })
   })
 })
