@@ -5,3 +5,4 @@ dist/
 .firebase/
 *.local
 credenciales_firebase.txt
+.claude/
