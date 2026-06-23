@@ -22,10 +22,14 @@ export default function PracticeBlock({ n, onComplete }) {
       <div style={styles.progress}>Práctica {trialIndex}/{totalTrials}</div>
       {phase === 'fixation' && <FixationCross />}
       {(phase === 'stimulus' || phase === 'response') && imageSrc && (
-        <StimulusDisplay imageSrc={imageSrc} />
+        <StimulusDisplay imageSrc={imageSrc} faceId={currentTrial?.face_id} />
       )}
       {phase === 'response' && lastFeedback && (
-        <div style={{ ...styles.feedback, color: lastFeedback === 'correct' ? 'var(--color-success)' : 'var(--color-error)' }}>
+        <div
+          key={currentTrial?.face_id}
+          className="feedback-pop"
+          style={{ ...styles.feedback, color: lastFeedback === 'correct' ? 'var(--color-success)' : 'var(--color-error)' }}
+        >
           {lastFeedback === 'correct' ? '✓ Correcto' : '✗ Incorrecto'}
         </div>
       )}

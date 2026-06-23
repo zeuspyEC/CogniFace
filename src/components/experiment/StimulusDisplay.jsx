@@ -1,17 +1,50 @@
-export default function StimulusDisplay({ imageSrc }) {
+export default function StimulusDisplay({ imageSrc, faceId }) {
   return (
-    <div style={styles.container}>
-      <img
-        src={imageSrc}
-        alt=""
-        style={styles.image}
-        draggable={false}
-      />
+    <div style={s.container}>
+      <div key={faceId} className="face-appear" style={s.circle}>
+        <img
+          src={imageSrc}
+          alt=""
+          style={s.image}
+          draggable={false}
+        />
+      </div>
+      <p style={s.hint}>ESPACIO = mismo rostro</p>
     </div>
   )
 }
 
-const styles = {
-  container: { display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: 'var(--color-bg)' },
-  image: { width: 300, height: 300, objectFit: 'cover', borderRadius: 8, userSelect: 'none' },
+const s = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '100vh',
+    gap: 24,
+  },
+  circle: {
+    width: 320,
+    height: 320,
+    borderRadius: '50%',
+    overflow: 'hidden',
+    border: '3px solid rgba(108, 99, 255, 0.4)',
+    boxShadow: '0 0 0 8px rgba(108, 99, 255, 0.08), 0 0 60px rgba(108, 99, 255, 0.25)',
+    background: '#fff',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    objectPosition: 'center top',
+    userSelect: 'none',
+    pointerEvents: 'none',
+  },
+  hint: {
+    color: 'rgba(136,146,164,0.5)',
+    fontSize: 12,
+    fontWeight: 500,
+    letterSpacing: '0.1em',
+    textTransform: 'uppercase',
+  },
 }
