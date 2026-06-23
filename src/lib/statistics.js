@@ -24,8 +24,8 @@ export function calculateIAF(trials, participantGender) {
 
 export function calculateMeanRT(trials, faceGender) {
   const filtered = (faceGender
-    ? trials.filter(t => t.face_gender === faceGender)
-    : trials
+    ? trials.filter(t => !t.is_practice && t.face_gender === faceGender)
+    : trials.filter(t => !t.is_practice)
   ).filter(t => t.reaction_time !== null && t.reaction_time !== undefined)
 
   if (filtered.length === 0) return 0

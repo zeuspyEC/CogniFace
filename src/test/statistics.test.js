@@ -79,4 +79,12 @@ describe('calculateMeanRT', () => {
   it('sin filtro de género calcula todos los no-null', () => {
     expect(calculateMeanRT(trials)).toBeCloseTo(433.33, 0)
   })
+
+  it('ignora ensayos de práctica', () => {
+    const mixed = [
+      makeTrial({ reaction_time: 100, is_practice: false }),
+      makeTrial({ reaction_time: 900, is_practice: true }),
+    ]
+    expect(calculateMeanRT(mixed)).toBeCloseTo(100)
+  })
 })
