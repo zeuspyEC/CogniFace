@@ -24,7 +24,7 @@ export default function AdminPage() {
   }, [user, fetchParticipants])
 
   return (
-    <AdminDashboard activeTab={activeTab} onTabChange={setActiveTab}>
+    <AdminDashboard activeTab={activeTab} onTabChange={setActiveTab} participants={participants}>
       {loading ? <LoadingSpinner /> : (
         activeTab === 'data'
           ? <ParticipantsTable participants={participants} onRefresh={fetchParticipants} />
