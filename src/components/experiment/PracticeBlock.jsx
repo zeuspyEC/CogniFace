@@ -54,16 +54,10 @@ export default function PracticeBlock({ n, onComplete }) {
 
       {/* Main stimulus area */}
       <div style={s.main}>
-        {/* Feedback overlay during fixation (result of previous trial) */}
-        {phase === 'fixation' && lastFeedback && (
-          <FeedbackOverlay result={lastFeedback} trial={currentTrial} n={n} trialIndex={trialIndex} />
-        )}
-
+        {/* Fixation cross OR feedback from previous trial */}
         {phase === 'fixation' && !lastFeedback && <FixationView />}
         {phase === 'fixation' && lastFeedback && (
-          <div style={{ position: 'absolute', opacity: 0.3 }}>
-            <span style={{ fontSize: 40, color: '#fff' }}>+</span>
-          </div>
+          <FeedbackOverlay result={lastFeedback} n={n} trialIndex={trialIndex} />
         )}
 
         {phase === 'stimulus' && imageSrc && (
@@ -97,7 +91,7 @@ function CountdownScreen({ count, label }) {
   )
 }
 
-function FeedbackOverlay({ result, n, trialIndex }) {
+function FeedbackOverlay({ result, n, trialIndex }) {  // shows during next fixation (500ms)
   const isCorrect = result === 'correct'
   return (
     <div key={`fb-${trialIndex}`} style={fb.container}>
