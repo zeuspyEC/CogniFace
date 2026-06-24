@@ -1,8 +1,10 @@
 import { calculateAccuracy, calculateIAF, calculateMeanRT } from '../../lib/statistics'
 
 export default function ResultsScreen({ allTrials, participantGender }) {
-  const block1 = allTrials.filter(t => t.trial_number <= 20 && !t.is_practice)
-  const block2 = allTrials.filter(t => t.trial_number > 20 || allTrials.indexOf(t) >= block1.length)
+  // allTrials is always [...block1Trials, ...block2Trials] — split by position, not trial_number
+  // (both blocks use trial_number 1-20 independently)
+  const block1 = allTrials.slice(0, 20)
+  const block2 = allTrials.slice(20)
 
   const iaf = calculateIAF(allTrials, participantGender)
   const acc = calculateAccuracy(allTrials)
