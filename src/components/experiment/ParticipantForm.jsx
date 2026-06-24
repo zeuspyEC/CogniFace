@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ThemeToggle } from '../shared/ThemeToggle'
 
 export default function ParticipantForm({ onSubmit }) {
   const [gender, setGender] = useState('')
@@ -24,6 +25,7 @@ export default function ParticipantForm({ onSubmit }) {
 
   return (
     <div style={s.container}>
+      <div style={s.themeBtn}><ThemeToggle /></div>
       <div style={s.orb} />
       <div style={s.card}>
         <div className="float-in" style={s.header}>
@@ -102,6 +104,7 @@ export default function ParticipantForm({ onSubmit }) {
 
 const s = {
   container: { display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '24px 16px', background: 'var(--color-bg)', position: 'relative' },
+  themeBtn: { position: 'fixed', top: 16, right: 16, zIndex: 100 },
   orb: { position: 'absolute', top: '20%', right: '10%', width: 240, height: 240, borderRadius: '50%', background: 'radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 70%)', pointerEvents: 'none', animation: 'orbFloat 8s ease-in-out infinite' },
   card: { maxWidth: 480, width: '100%', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 20, padding: '36px 32px', boxShadow: '0 20px 60px rgba(0,0,0,0.2)' },
   header: { textAlign: 'center', marginBottom: 28 },

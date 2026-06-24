@@ -1,6 +1,9 @@
+import { ThemeToggle } from '../shared/ThemeToggle'
+
 export default function BlockSelector({ onSelect }) {
   return (
     <div style={s.container}>
+      <div style={s.themeBtn}><ThemeToggle /></div>
       <div style={s.card}>
         <div className="float-in" style={s.header}>
           <span style={s.badge}>SELECCIÓN DE BLOQUE</span>
@@ -65,7 +68,8 @@ function BlockCard({ n, label, difficulty, desc, example, color, onSelect }) {
 }
 
 const s = {
-  container: { display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '24px 16px', background: 'var(--color-bg)' },
+  container: { position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '24px 16px', background: 'var(--color-bg)' },
+  themeBtn: { position: 'fixed', top: 16, right: 16, zIndex: 100 },
   card: { maxWidth: 640, width: '100%', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 20, padding: '36px 32px', boxShadow: '0 20px 60px rgba(0,0,0,0.2)' },
   header: { textAlign: 'center', marginBottom: 28 },
   badge: { fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--color-accent2)', background: 'rgba(108,99,255,0.12)', padding: '3px 10px', borderRadius: 20 },

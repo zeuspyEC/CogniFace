@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ThemeToggle } from '../shared/ThemeToggle'
 import {
   calculateAccuracy, calculateIAF, calculateMeanRT,
   calculateHits, calculateMisses, calculateFalseAlarms, calculateEmotionalErrors
@@ -20,6 +21,7 @@ export default function ResultsScreen({ trials, participantGender, nBack }) {
 
   return (
     <div style={s.outer}>
+      <div style={s.themeBtn}><ThemeToggle /></div>
       <div style={s.card}>
         <div className="float-in" style={s.headerSection}>
           <div style={{ fontSize: 52, marginBottom: 8 }}>
@@ -112,7 +114,8 @@ function TrialLog({ trials, nBack }) {
 }
 
 const s = {
-  outer: { display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '24px 16px', background: 'var(--color-bg)' },
+  outer: { position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '24px 16px', background: 'var(--color-bg)' },
+  themeBtn: { position: 'fixed', top: 16, right: 16, zIndex: 100 },
   card: { maxWidth: 600, width: '100%', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 24, padding: '40px 32px', boxShadow: '0 24px 80px rgba(0,0,0,0.25)', display: 'flex', flexDirection: 'column', gap: 20 },
   headerSection: { textAlign: 'center' },
   title: { fontSize: 26, fontWeight: 800, marginBottom: 4, color: 'var(--color-text)' },
@@ -126,7 +129,7 @@ const s = {
 }
 
 const mc = {
-  card: { background: 'rgba(13,27,42,0.4)', border: '1px solid', borderRadius: 12, padding: '14px 10px', textAlign: 'center' },
+  card: { background: 'var(--color-surface2)', border: '1px solid', borderRadius: 12, padding: '14px 10px', textAlign: 'center' },
   icon: { fontSize: 20, display: 'block', marginBottom: 6 },
   label: { color: 'var(--color-text-muted)', fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 6 },
   value: { fontSize: 22, fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 4 },
@@ -134,8 +137,8 @@ const mc = {
 }
 
 const lg = {
-  toggleBtn: { width: '100%', background: 'rgba(26,45,66,0.5)', border: '1px solid var(--color-border)', color: 'var(--color-text-muted)', padding: '10px', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 500, textAlign: 'center' },
-  block: { background: 'rgba(13,27,42,0.5)', border: '1px solid var(--color-border)', borderRadius: 12, padding: '14px 16px', maxHeight: 320, overflowY: 'auto', marginTop: 8 },
+  toggleBtn: { width: '100%', background: 'var(--color-surface2)', border: '1px solid var(--color-border)', color: 'var(--color-text-muted)', padding: '10px', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 500, textAlign: 'center' },
+  block: { background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 12, padding: '14px 16px', maxHeight: 320, overflowY: 'auto', marginTop: 8 },
   blockTitle: { fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--color-text-muted)', marginBottom: 10 },
   row: { display: 'flex', alignItems: 'center', gap: 8, padding: '5px 0', borderBottom: '1px solid rgba(42,63,90,0.3)', fontSize: 12 },
   num: { width: 22, color: 'var(--color-text-muted)', fontSize: 11, flexShrink: 0 },

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { useNavigate, Navigate } from 'react-router-dom'
 import LoadingSpinner from '../shared/LoadingSpinner'
+import { ThemeToggle } from '../shared/ThemeToggle'
 
 export default function AdminLogin() {
   const { signIn, user, loading: authLoading } = useAuth()
@@ -31,6 +32,7 @@ export default function AdminLogin() {
 
   return (
     <div style={styles.container}>
+      <div style={styles.themeBtn}><ThemeToggle /></div>
       <div style={styles.card}>
         <div style={styles.header}>
           <div style={styles.logoRing}>
@@ -86,6 +88,7 @@ export default function AdminLogin() {
 
 const styles = {
   container: {
+    position: 'relative',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -93,15 +96,15 @@ const styles = {
     padding: '24px 16px',
     background: 'var(--color-bg)',
   },
+  themeBtn: { position: 'fixed', top: 16, right: 16, zIndex: 100 },
   card: {
     maxWidth: 420,
     width: '100%',
-    background: 'rgba(26, 45, 66, 0.9)',
-    backdropFilter: 'blur(16px)',
-    border: '1px solid rgba(108,99,255,0.2)',
+    background: 'var(--color-surface)',
+    border: '1px solid var(--color-border)',
     borderRadius: 24,
     padding: '40px 32px',
-    boxShadow: '0 24px 80px rgba(0,0,0,0.4)',
+    boxShadow: '0 24px 80px rgba(0,0,0,0.2)',
   },
   header: { textAlign: 'center', marginBottom: 28 },
   logoRing: {
@@ -132,14 +135,15 @@ const styles = {
     alignItems: 'center',
   },
   input: {
-    background: 'rgba(13,27,42,0.8)',
-    border: '1px solid #2A3F5A',
+    background: 'var(--color-surface2)',
+    border: '1px solid var(--color-border)',
     color: 'var(--color-text)',
     padding: '12px 16px',
     borderRadius: 10,
     fontSize: 15,
     outline: 'none',
     transition: 'border-color 0.15s',
+    width: '100%',
   },
   button: {
     background: 'linear-gradient(135deg, #6C63FF, #A78BFA)',

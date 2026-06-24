@@ -1,5 +1,6 @@
 import { useAuth } from '../../context/AuthContext'
 import { useMobile } from '../../hooks/useMobile'
+import { ThemeToggle } from '../shared/ThemeToggle'
 
 export default function AdminDashboard({ children, activeTab, onTabChange, participants }) {
   const { user, signOut } = useAuth()
@@ -26,6 +27,7 @@ export default function AdminDashboard({ children, activeTab, onTabChange, parti
             {!isMobile && (
               <span style={s.userEmail}>{user?.email}</span>
             )}
+            <ThemeToggle />
             <button style={s.signOut} onClick={signOut}>Salir</button>
           </div>
         </div>
@@ -67,9 +69,9 @@ export default function AdminDashboard({ children, activeTab, onTabChange, parti
 const s = {
   layout: { minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--color-bg)' },
   header: {
-    background: 'rgba(26,45,66,0.98)',
+    background: 'var(--color-surface)',
     backdropFilter: 'blur(12px)',
-    borderBottom: '1px solid #2A3F5A',
+    borderBottom: '1px solid var(--color-border)',
     position: 'sticky',
     top: 0,
     zIndex: 100,
@@ -112,7 +114,7 @@ const s = {
     justifyContent: 'space-between',
     height: 40,
     gap: 8,
-    borderTop: '1px solid rgba(42,63,90,0.4)',
+    borderTop: '1px solid var(--color-border)',
   },
   nav: { display: 'flex', gap: 4 },
   tab: {
