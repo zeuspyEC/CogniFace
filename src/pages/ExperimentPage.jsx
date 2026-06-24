@@ -40,7 +40,11 @@ export default function ExperimentPage() {
       await saveBlockTrials(state.participantId, 2, stamped)
       const iaf_n1 = calculateIAF(state.trialsBlock1, state.gender)
       const iaf_n2 = calculateIAF(stamped, state.gender)
-      await completeParticipant(state.participantId, iaf_n1, iaf_n2)
+      try {
+        await completeParticipant(state.participantId, iaf_n1, iaf_n2)
+      } catch (e) {
+        console.warn('completeParticipant failed (trials still saved):', e?.message)
+      }
       dispatch({ type: 'COMPLETE_BLOCK2', trials: stamped })
     } catch {
       setFatalError('Error al guardar el bloque 2. Tus datos parciales ya fueron guardados. Por favor contacta al investigador.')

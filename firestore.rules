@@ -3,7 +3,18 @@ service cloud.firestore {
   match /databases/{database}/documents {
     match /participants/{participantId} {
       allow create: if true;
-      allow read, update, delete: if request.auth != null;
+
+      // Public: can only mark their own experiment as complete (once)
+      // Admin: can update anything
+      allow update: if
+        request.auth != null ||
+        (
+          !resource.data.completed &&
+          request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(['completed', 'iaf_n1', 'iaf_n2'])
+        );
+
+      allow read, delete: if request.auth != null;
 
       match /trials/{trialId} {
         allow create: if true;

@@ -4,6 +4,9 @@ import IAFWidget from './charts/IAFWidget'
 import AccuracyBarChart from './charts/AccuracyBarChart'
 import MemoryLoadChart from './charts/MemoryLoadChart'
 import ReactionTimeChart from './charts/ReactionTimeChart'
+import HypothesisPieChart from './charts/HypothesisPieChart'
+import IAFScatterChart from './charts/IAFScatterChart'
+import IAFDistributionChart from './charts/IAFDistributionChart'
 
 export default function ChartsPanel({ participants }) {
   const isMobile = useMobile()
@@ -23,20 +26,30 @@ export default function ChartsPanel({ participants }) {
     )
   }
 
+  const cols2 = isMobile ? '1fr' : '1fr 1fr'
+
   return (
-    <div style={{
-      display: 'grid',
-      gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
-      gap: isMobile ? 12 : 20,
-    }}>
-      <div style={{ gridColumn: '1 / -1' }}>
-        <IAFWidget globalIAF={globalIAF} maleCount={maleCount} femaleCount={femaleCount} />
+    <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? 12 : 20 }}>
+      {/* Row 1: Global IAF banner */}
+      <IAFWidget globalIAF={globalIAF} maleCount={maleCount} femaleCount={femaleCount} />
+
+      {/* Row 2: IAF by block + Cognitive load */}
+      <div style={{ display: 'grid', gridTemplateColumns: cols2, gap: isMobile ? 12 : 20 }}>
+        <AccuracyBarChart participants={completed} />
+        <MemoryLoadChart participants={completed} />
       </div>
-      <AccuracyBarChart participants={completed} />
-      <MemoryLoadChart participants={completed} />
-      <div style={{ gridColumn: '1 / -1' }}>
-        <ReactionTimeChart participants={completed} />
+
+      {/* Row 3: Hypothesis pie + Participation status */}
+      <div style={{ display: 'grid', gridTemplateColumns: cols2, gap: isMobile ? 12 : 20 }}>
+        <HypothesisPieChart participants={completed} />
+        <ReactionTimeChart participants={participants} />
       </div>
+
+      {/* Row 4: IAF distribution histogram (full width) */}
+      <IAFDistributionChart participants={completed} />
+
+      {/* Row 5: N1 vs N2 scatter (full width) */}
+      <IAFScatterChart participants={completed} />
     </div>
   )
 }
