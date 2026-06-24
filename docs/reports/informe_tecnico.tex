@@ -1,0 +1,557 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, fit, backgrounds}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable}
+\usepackage{alltt}
+
+\geometry{top=2.5cm, bottom=2.5cm, left=2.8cm, right=2.8cm}
+\setlength{\headheight}{15pt}
+
+% -- Colors ------------------------------------------------------------------
+\definecolor{primary}{RGB}{108,99,255}
+\definecolor{secondary}{RGB}{167,139,250}
+\definecolor{success}{RGB}{76,175,138}
+\definecolor{codebg}{RGB}{248,249,250}
+\definecolor{codegreen}{RGB}{0,128,0}
+\definecolor{codered}{RGB}{197,15,31}
+
+% -- Header/Footer -----------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textcolor{primary}{\textbf{CogniFace}} --- Documentacion Tecnica}
+\fancyhead[R]{\textcolor{gray}{\small Universidad Tecnica del Norte}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% -- Titles ------------------------------------------------------------------
+\titleformat{\section}[block]{\large\bfseries\color{primary}}{\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}[block]{\normalsize\bfseries\color{primary!80!black}}{\thesubsection}{1em}{}
+
+% -- Code listings -----------------------------------------------------------
+\lstdefinelanguage{JSCustom}{
+  keywords={const,let,var,export,import,async,await,function,return,from,if,else,
+            case,switch,true,false,null,undefined,new,class,this},
+  sensitive=true,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]"
+}
+\lstdefinestyle{jsStyle}{
+  backgroundcolor=\color{codebg},
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{primary}\bfseries,
+  numberstyle=\tiny\color{gray},
+  stringstyle=\color{codered},
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showstringspaces=false,
+  tabsize=2,
+  frame=single,
+  rulecolor=\color{primary!30!white},
+  language=JSCustom
+}
+\lstset{style=jsStyle}
+
+% -- Boxes -------------------------------------------------------------------
+\tcbset{
+  infobox/.style={enhanced, breakable,
+    colback=primary!5!white, colframe=primary!50!white,
+    fonttitle=\bfseries\color{primary}, arc=3mm},
+  codebox/.style={enhanced, colback=codebg, colframe=gray!30,
+    fonttitle=\bfseries\small, arc=2mm},
+  successbox/.style={enhanced, breakable,
+    colback=success!8!white, colframe=success!60!white,
+    fonttitle=\bfseries\color{success!70!black}, arc=3mm}
+}
+
+% ============================================================================
+\begin{document}
+
+% -- Portada -----------------------------------------------------------------
+\begin{titlepage}
+\begin{tikzpicture}[remember picture, overlay]
+  \fill[primary!10!white] (current page.north west)
+    rectangle ([yshift=-5.5cm]current page.north east);
+\end{tikzpicture}
+
+\vspace*{2.5cm}
+\begin{center}
+  {\LARGE\bfseries\textcolor{primary}{UNIVERSIDAD TECNICA DEL NORTE}}\\[0.4cm]
+  {\large Facultad de Educacion, Ciencia y Tecnologia (FECYT)}\\[0.2cm]
+  {\large Carrera de Psicologia}\\[2cm]
+
+  \begin{tcolorbox}[infobox, width=0.92\textwidth]
+    \centering
+    {\Huge\bfseries\textcolor{primary}{CogniFace}}\\[0.5cm]
+    {\LARGE Documentacion Tecnica del Sistema}\\[0.3cm]
+    {\large Plataforma Web para Experimento N-Back con Rostros}
+  \end{tcolorbox}
+
+  \vspace{2cm}
+  \begin{tabular}{rl}
+    \textbf{Tipo de documento:} & Informe Tecnico v1.0 \\[0.3cm]
+    \textbf{Repositorio:}       & \texttt{zeuspyEC/CogniFace} \\[0.3cm]
+    \textbf{URL publica:}       & \texttt{https://cogniface.web.app} \\[0.3cm]
+    \textbf{Fecha:}             & Junio 2026 \\[0.3cm]
+    \textbf{Stack:}             & React 18 + Firebase Spark
+  \end{tabular}
+\end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ============================================================================
+\section{Resumen Ejecutivo}
+
+CogniFace es una aplicacion web de una sola pagina (SPA) disenada para administrar
+el experimento N-Back con rostros de la Carrera de Psicologia de la UTN-FECYT.
+Permite recolectar datos de memoria de trabajo sobre participantes anonimos,
+calcular el Indice de Afinidad Facial (IAF) y visualizar resultados desde
+un panel administrativo protegido.
+
+\begin{tcolorbox}[infobox, title={Caracteristicas principales}]
+\begin{itemize}[leftmargin=1em]
+  \item Experimento N-Back de una sola fase (N=1 o N=2) elegida por el investigador
+  \item 5 ensayos de practica con retroalimentacion + 20 experimentales sin feedback
+  \item Medicion de tiempo de reaccion sub-milisegundo con \texttt{performance.now()}
+  \item Persistencia en Firestore (Spark gratuito) con escritura atomica al finalizar
+  \item Panel admin con graficas estadisticas, tabla CRUD y exportacion a Excel
+  \item Modo oscuro / claro con variables CSS y \texttt{localStorage}
+  \item CI/CD automatico via GitHub Actions a Firebase Hosting
+\end{itemize}
+\end{tcolorbox}
+
+% ============================================================================
+\section{Stack Tecnologico}
+
+\begin{longtable}{>{\bfseries}p{3.5cm} p{4.8cm} p{4.8cm}}
+\toprule
+Capa & Tecnologia & Proposito \\
+\midrule
+\endfirsthead
+\toprule
+Capa & Tecnologia & Proposito \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Frontend  & React 18 + Vite 6   & SPA con hot-reload y bundling optimizado \\
+Enrutado  & React Router v6     & Rutas \texttt{/} (experimento) y \texttt{/admin} \\
+Estilos   & CSS variables       & Dark/light mode via \texttt{:root} y \texttt{[data-theme]} \\
+Graficas  & Recharts 2.x        & Slope chart, lollipop, comparacion de grupos \\
+Excel     & SheetJS (xlsx)      & Exportacion en cliente, sin servidor \\
+Auth      & Firebase Auth       & Login email/password para investigador \\
+BD        & Firestore (Spark)   & Colecciones \texttt{participants} + \texttt{trials} \\
+Hosting   & Firebase Hosting    & CDN global, SSL automatico \\
+CI/CD     & GitHub Actions      & Build + deploy en cada push a \texttt{main} \\
+\bottomrule
+\end{longtable}
+
+% ============================================================================
+\section{Arquitectura del Sistema}
+
+\subsection{Vista General}
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=1.5cm,
+  box/.style={rectangle, draw=primary, fill=primary!8, rounded corners=4pt,
+              text width=2.8cm, align=center, minimum height=0.9cm, font=\small\bfseries},
+  arr/.style={-{Stealth[length=5pt]}, thick, color=primary!70},
+  lbl/.style={font=\scriptsize\color{gray}, midway}
+]
+\node[box] (browser) {Navegador\\(React SPA)};
+\node[box, right=3.5cm of browser] (auth) {Firebase Auth};
+\node[box, above=1.2cm of auth] (hosting) {Firebase Hosting};
+\node[box, below=1.2cm of auth] (firestore) {Firestore DB};
+\node[box, left=3.5cm of hosting] (ci) {GitHub Actions};
+
+\draw[arr] (hosting) -- node[lbl, above]{CDN/HTTPS} (browser);
+\draw[arr] (browser) -- node[lbl, above]{login} (auth);
+\draw[arr] (browser) -- node[lbl, right]{read/write} (firestore);
+\draw[arr] (ci)      -- node[lbl, above]{deploy} (hosting);
+
+\begin{scope}[on background layer]
+  \node[draw=secondary!40, fill=secondary!5, rounded corners=6pt,
+        fit=(auth)(firestore)(hosting), inner sep=8pt] {};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+
+\subsection{Estructura de Archivos}
+
+\begin{tcolorbox}[codebox, title={Archivos principales del proyecto}]
+\begin{alltt}
+\small
+src/
+  components/
+    experiment/
+      WelcomeScreen.jsx      Portada UTN/FECYT
+      ParticipantForm.jsx    Formulario sexo/ID/edad
+      BlockSelector.jsx      Eleccion N1 o N2
+      InstructionsScreen.jsx Instrucciones por bloque
+      PracticeBlock.jsx      5 ensayos con feedback
+      ExperimentBlock.jsx    20 ensayos sin feedback
+      ResultsScreen.jsx      Metricas + IAF
+    admin/
+      AdminDashboard.jsx     Layout header + tabs
+      AdminLogin.jsx         Login Firebase Auth
+      ParticipantsTable.jsx  CRUD + Export Excel
+      ChartsPanel.jsx        Graficas Recharts
+    shared/
+      ThemeToggle.jsx        Boton dark/light
+      ProtectedRoute.jsx     Guard /admin
+  hooks/
+    useExperimentEngine.js   Maquina de estados
+  context/
+    ThemeContext.jsx
+    AuthContext.jsx
+    ExperimentContext.jsx
+  lib/
+    sequences.js             Generador N-Back
+    statistics.js            IAF, metricas
+    firestoreService.js      CRUD Firestore
+    imagePreloader.js        Precarga 12 rostros
+\end{alltt}
+\end{tcolorbox}
+
+% ============================================================================
+\section{Maquina de Estados del Experimento}
+
+El hook \texttt{useExperimentEngine.js} implementa una maquina de estados finita
+con \texttt{useReducer}. Los timers se gestionan con \texttt{setTimeout} en efectos
+React, garantizando que cada fase se active exactamente una vez por ensayo.
+
+\begin{center}
+\begin{tikzpicture}[
+  state/.style={circle, draw=primary, fill=primary!12, thick,
+                minimum size=1.8cm, font=\footnotesize\bfseries, align=center},
+  arr/.style={-{Stealth[length=6pt]}, thick, color=primary!80},
+  lbl/.style={font=\scriptsize\color{gray}, fill=white, inner sep=1pt}
+]
+\node[state] (idle)     at (0,0)      {idle};
+\node[state] (load)     at (3,0)      {loading};
+\node[state] (fix)      at (6,0)      {fixation};
+\node[state] (stim)     at (6,-2.8)   {stimulus};
+\node[state] (resp)     at (3,-2.8)   {response};
+\node[state] (done)     at (0,-2.8)   {done};
+
+\draw[arr] (idle) -- node[lbl, above]{start()} (load);
+\draw[arr] (load) -- node[lbl, above]{LOADED} (fix);
+\draw[arr] (fix)  -- node[lbl, right]{500 ms} (stim);
+\draw[arr] (stim) -- node[lbl, below]{1000 ms} (resp);
+\draw[arr] (resp) to[bend left=30] node[lbl, left]{END TRIAL} (fix);
+\draw[arr] (resp) -- node[lbl, above]{ultimo} (done);
+\end{tikzpicture}
+\end{center}
+
+\begin{tcolorbox}[infobox, title={Temporizado por ensayo (3500 ms totales)}]
+\centering
+\begin{tabular}{clc}
+\toprule
+Fase & Descripcion & Duracion \\
+\midrule
+Cruz (+) & Punto de fijacion & 500 ms \\
+Rostro   & Estimulo facial   & 1\,000 ms \\
+Ventana  & Respuesta ESPACIO & 2\,000 ms \\
+\bottomrule
+\end{tabular}
+\end{tcolorbox}
+
+\subsection{Reducer (fragmento clave)}
+
+\begin{lstlisting}[caption={Caso RESPOND en useExperimentEngine.js}]
+case 'RESPOND': {
+  if (state.respondedThisTrial || state.phase !== 'response') return state
+  const rt = performance.now() - state.stimulusOnset
+  const trial = state.sequence[state.trialIndex]
+  const immediateResult = trial?.is_target ? 'correct' : 'incorrect'
+  return {
+    ...state,
+    respondedThisTrial: true,
+    pendingRT: rt,
+    lastFeedback: immediateResult  // visible en PracticeBlock
+  }
+}
+\end{lstlisting}
+
+\begin{tcolorbox}[infobox, title={Por que useReducer y no useState?}]
+\texttt{useReducer} garantiza transiciones atomicas: el estado del ensayo
+(fase, indice, RT, feedback) actualiza en una sola operacion de despacho,
+eliminando race conditions entre los timers de fijacion, estimulo y respuesta.
+\end{tcolorbox}
+
+% ============================================================================
+\section{Flujo de Datos del Participante}
+
+\begin{center}
+\begin{tikzpicture}[
+  flowbox/.style={rectangle, draw=primary, fill=primary!8, rounded corners=3pt,
+               minimum width=2.5cm, minimum height=0.8cm, font=\small\bfseries},
+  db/.style={rectangle, draw=secondary, fill=secondary!10, rounded corners=3pt,
+             minimum width=2.5cm, minimum height=0.8cm, font=\footnotesize},
+  arr/.style={-{Stealth[length=5pt]}, thick, color=primary!70},
+  darr/.style={-{Stealth[length=5pt]}, dashed, color=secondary}
+]
+\node[flowbox] (w) at (0,0)    {Welcome};
+\node[flowbox] (f) at (0,-1.2) {Formulario};
+\node[flowbox] (b) at (0,-2.4) {Block N1/N2};
+\node[flowbox] (i) at (0,-3.6) {Instrucciones};
+\node[flowbox] (p) at (0,-4.8) {Practica x5};
+\node[flowbox] (e) at (0,-6.0) {Experimento x20};
+\node[flowbox] (r) at (0,-7.2) {Resultados};
+
+\node[db] (fs1) at (4,-1.2) {createParticipant};
+\node[db] (fs2) at (4,-6.0) {batch write trials};
+
+\draw[arr] (w)--(f); \draw[arr] (f)--(b); \draw[arr] (b)--(i);
+\draw[arr] (i)--(p); \draw[arr] (p)--(e); \draw[arr] (e)--(r);
+\draw[darr] (f) -- (fs1);
+\draw[darr] (e) -- (fs2);
+\end{tikzpicture}
+\end{center}
+
+% ============================================================================
+\section{Esquema de Base de Datos Firestore}
+
+\begin{longtable}{>{\ttfamily\small}p{4.5cm} >{\small}p{3cm} >{\small}p{5.5cm}}
+\toprule
+\normalfont\textbf{Campo} & \normalfont\textbf{Tipo} & \normalfont\textbf{Descripcion} \\
+\midrule
+\endfirsthead
+\multicolumn{3}{l}{\small\textit{Coleccion: /participants/\{id\}}}\\
+\toprule
+\normalfont\textbf{Campo} & \normalfont\textbf{Tipo} & \normalfont\textbf{Descripcion} \\
+\midrule
+\endhead
+\multicolumn{3}{l}{\small\textit{Continua...}}\\
+\bottomrule
+\endfoot
+\bottomrule
+\multicolumn{3}{l}{}
+\endlastfoot
+\multicolumn{3}{l}{\textbf{Coleccion: /participants/\{id\}}}\\[0.3em]
+gender           & string  & "male" | "female" \\
+participant\_code & string & ID asignado por investigador \\
+age              & number  & Edad del participante \\
+timestamp        & Timestamp & Hora de inicio \\
+completed        & boolean & Experimento finalizado \\
+n\_back          & number  & 1 o 2 \\
+iaf              & number  & Indice de Afinidad Facial \\
+iaf\_n1 / iaf\_n2 & number & IAF por condicion \\
+hits / misses    & number  & Aciertos y omisiones \\
+false\_alarms    & number  & Falsas alarmas \\
+emotional\_errors & number & Errores en sexo opuesto \\
+mean\_rt         & number  & TR promedio en ms \\
+accuracy         & number  & Precision [0,1] \\[0.5em]
+\multicolumn{3}{l}{\textbf{Subcoleccion: /participants/\{id\}/trials/\{id\}}}\\[0.3em]
+block            & number  & 1 o 2 \\
+trial\_number    & number  & Posicion en la secuencia \\
+is\_practice     & boolean & Ensayo de practica \\
+face\_id         & string  & "f01"..."m06" \\
+face\_gender     & string  & "female" | "male" \\
+is\_target       & boolean & Es un target N-Back \\
+responded        & boolean & Participante presiono ESPACIO \\
+reaction\_time   & number  & RT en ms (null si no respondio) \\
+accuracy         & number  & 0 o 1 \\
+error\_type      & string  & hit, miss, false\_alarm, correct\_rejection \\
+\end{longtable}
+
+% ============================================================================
+\section{Sistema de Temas Dark/Light}
+
+\begin{tcolorbox}[codebox, title={src/index.css --- Variables CSS}]
+\begin{verbatim}
+:root {
+  --color-bg:         #0D1A2B;
+  --color-surface:    #0F2035;
+  --color-surface2:   #152D4A;
+  --color-text:       #E8EFF9;
+  --color-text-muted: #8892A4;
+}
+
+[data-theme="light"] {
+  --color-bg:         #F0F4F8;
+  --color-surface:    #FFFFFF;
+  --color-surface2:   #E8EEF5;
+  --color-text:       #1A2D42;
+  --color-text-muted: #64748B;
+}
+\end{verbatim}
+\end{tcolorbox}
+
+El atributo \texttt{data-theme} se escribe en \texttt{document.documentElement}
+desde \texttt{ThemeContext} y se persiste en \texttt{localStorage}.
+El boton \texttt{ThemeToggle} aparece en las 7 interfaces de la app.
+
+% ============================================================================
+\section{Formula IAF}
+
+\begin{tcolorbox}[infobox, title={Indice de Afinidad Facial (IAF)}]
+\begin{align}
+  \text{Hombre:}\quad & \text{IAF} =
+    \text{acc}(F) - \text{acc}(M) \\[4pt]
+  \text{Mujer:}\quad & \text{IAF} =
+    \text{acc}(M) - \text{acc}(F)
+\end{align}
+donde $F$ = rostros femeninos, $M$ = rostros masculinos (solo ensayos reales).
+
+\medskip
+$\text{IAF} > 0 \;\Rightarrow\;$ ventaja hacia sexo opuesto $\;\Rightarrow\;$
+hipotesis \textbf{apoyada}
+\end{tcolorbox}
+
+\begin{lstlisting}[caption={calculateIAF en statistics.js}]
+export function calculateIAF(trials, participantGender) {
+  const real = trials.filter(t => !t.is_practice)
+  const accFemale = calculateAccuracy(real, 'female')
+  const accMale   = calculateAccuracy(real, 'male')
+  return participantGender === 'male'
+    ? accFemale - accMale
+    : accMale - accFemale
+}
+\end{lstlisting}
+
+% ============================================================================
+\section{Panel Administrativo}
+
+\begin{longtable}{>{\bfseries}p{4cm} p{9cm}}
+\toprule
+Componente & Funcionalidad \\
+\midrule
+\endfirsthead
+\toprule
+Componente & Funcionalidad \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+AdminLogin.jsx       & Login con Firebase Auth \\
+AdminDashboard.jsx   & Header sticky con tabs, responsive (useMobile) \\
+ParticipantsTable.jsx & Tabla paginada, filtros, boton Exportar Excel \\
+ChartsPanel.jsx      & Dashboard de estadisticas (Recharts) \\
+IAFWidget            & Comparacion IAF Hombres vs. Mujeres por bloque \\
+SlopeChart           & Evolucion IAF por participante \\
+GroupedBar           & Comparacion precision mismo/opuesto sexo \\
+\end{longtable}
+
+\subsection{Exportacion Excel (SheetJS)}
+
+\begin{lstlisting}[caption={Funcion exportToExcel en ParticipantsTable.jsx}]
+import * as XLSX from 'xlsx'
+
+function exportToExcel(participants) {
+  const wb = XLSX.utils.book_new()
+  const rows = participants.map(p => ({
+    'ID Participante': p.participant_code ?? '-',
+    'Sexo':    p.gender === 'male' ? 'Masculino' : 'Femenino',
+    'Edad':    p.age ?? '-',
+    'N-Back':  p.n_back ?? '-',
+    'IAF':     p.iaf?.toFixed(4) ?? '-',
+    'Precision': p.accuracy ? (p.accuracy*100).toFixed(1)+'%' : '-',
+  }))
+  XLSX.utils.book_append_sheet(wb,
+    XLSX.utils.json_to_sheet(rows), 'Participantes')
+  XLSX.writeFile(wb, 'cogniface_participantes.xlsx')
+}
+\end{lstlisting}
+
+% ============================================================================
+\section{Pipeline CI/CD}
+
+\begin{center}
+\begin{tikzpicture}[
+  flowbox/.style={rectangle, draw=primary, fill=primary!8, rounded corners=3pt,
+               minimum width=2.5cm, minimum height=0.9cm,
+               font=\small\bfseries, align=center},
+  arr/.style={-{Stealth[length=5pt]}, thick, color=primary!70}
+]
+\node[flowbox] (push)   {git push main};
+\node[flowbox, right=1.8cm of push]  (ci)     {GitHub Actions};
+\node[flowbox, right=1.8cm of ci]    (build)  {npm run build};
+\node[flowbox, right=1.8cm of build] (deploy) {firebase deploy};
+\node[flowbox, below=1cm of deploy,  fill=success!12, draw=success]
+  (live) {cogniface.web.app LIVE};
+
+\draw[arr] (push)--(ci);
+\draw[arr] (ci)--(build);
+\draw[arr] (build)--(deploy);
+\draw[arr] (deploy)--(live);
+\end{tikzpicture}
+\end{center}
+
+El secreto \texttt{FIREBASE\_SERVICE\_ACCOUNT\_COGNIFACE} se configura en
+GitHub Settings $>$ Secrets. El workflow esta en
+\texttt{.github/workflows/deploy.yml}.
+
+% ============================================================================
+\section{Seguridad}
+
+\begin{longtable}{>{\bfseries}p{4.2cm} p{9cm}}
+\toprule
+Aspecto & Implementacion \\
+\midrule
+\endfirsthead
+\toprule
+Aspecto & Implementacion \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Variables de entorno & Prefijo \texttt{VITE\_}, en \texttt{.env} (gitignoreado) \\
+Firestore Rules      & Anonimos: solo crear docs en \texttt{participants}/\texttt{trials} \\
+Auth admin           & Firebase Auth, solo investigador autenticado \\
+ProtectedRoute       & Guard que redirige \texttt{/admin} si no autenticado \\
+Sin Cloud Functions  & Toda logica en cliente, sin superficie de servidor \\
+Sin PII              & Codigo anonimo, sexo, edad --- sin nombre \\
+\end{longtable}
+
+% ============================================================================
+\section{Rendimiento y Compatibilidad}
+
+\begin{itemize}
+  \item \textbf{Imagenes como assets estaticos:} Las 12 fotografias se importan
+        directamente en el bundle de Vite, eliminando latencia de red en runtime.
+  \item \textbf{Bundle size:} 1\,367 kB (405 kB gzip). El tamano se debe a
+        xlsx y Recharts; aceptable para uso experimental.
+  \item \textbf{Timing:} \texttt{performance.now()} ofrece resolucion
+        sub-milisegundo para medicion psicofisica de RT.
+  \item \textbf{Soporte movil:} \texttt{ontouchstart}/\texttt{maxTouchPoints}
+        cambia instrucciones ESPACIO a boton tactil; layout adaptable con
+        \texttt{useMobile}.
+\end{itemize}
+
+% ============================================================================
+\section*{Conclusion Tecnica}
+
+CogniFace logra implementar un experimento cognitivo de precision milisegundo
+con presupuesto de infraestructura cero (Firebase Spark gratuito), usando React
+como maquina de estados experimental y Firestore como almacen longitudinal.
+Build de produccion verificado: \texttt{0 errores, 667 modulos, 1.08 s}.
+
+\vspace{2em}
+\noindent\rule{\textwidth}{0.4pt}\\[0.3em]
+{\small CogniFace v1.0 --- Universidad Tecnica del Norte,
+FECYT, Carrera de Psicologia --- Junio 2026}
+
+\end{document}

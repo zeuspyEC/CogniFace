@@ -1,0 +1,603 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, fit, backgrounds,
+                decorations.pathreplacing}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\geometry{top=2.5cm, bottom=2.5cm, left=2.8cm, right=2.8cm}
+\setlength{\headheight}{15pt}
+
+% -- Colors ------------------------------------------------------------------
+\definecolor{primary}{RGB}{108,99,255}
+\definecolor{secondary}{RGB}{167,139,250}
+\definecolor{success}{RGB}{76,175,138}
+\definecolor{errorred}{RGB}{224,92,92}
+\definecolor{warnyellow}{RGB}{245,158,11}
+\definecolor{blueface}{RGB}{96,165,250}
+\definecolor{pinkface}{RGB}{244,114,182}
+
+% -- Header/Footer -----------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textcolor{primary}{\textbf{CogniFace}} --- Informe del Proyecto}
+\fancyhead[R]{\textcolor{gray}{\small UTN --- FECYT --- Psicologia}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% -- Titles ------------------------------------------------------------------
+\titleformat{\section}[block]{\large\bfseries\color{primary}}{\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}[block]{\normalsize\bfseries\color{primary!80!black}}{\thesubsection}{1em}{}
+
+% -- Boxes -------------------------------------------------------------------
+\tcbset{
+  infobox/.style={enhanced, breakable,
+    colback=primary!5!white, colframe=primary!50!white,
+    fonttitle=\bfseries\color{primary}, arc=3mm},
+  successbox/.style={enhanced, breakable,
+    colback=success!8!white, colframe=success!60!white,
+    fonttitle=\bfseries\color{success!70!black}, arc=3mm},
+  warnbox/.style={enhanced, breakable,
+    colback=warnyellow!8!white, colframe=warnyellow!60!white,
+    fonttitle=\bfseries\color{warnyellow!70!black}, arc=3mm}
+}
+
+% ============================================================================
+\begin{document}
+
+% -- Portada -----------------------------------------------------------------
+\begin{titlepage}
+\begin{tikzpicture}[remember picture, overlay]
+  \fill[primary!10!white] (current page.north west)
+    rectangle ([yshift=-5.5cm]current page.north east);
+\end{tikzpicture}
+
+\vspace*{2.5cm}
+\begin{center}
+  {\LARGE\bfseries\textcolor{primary}{UNIVERSIDAD TECNICA DEL NORTE}}\\[0.4cm]
+  {\large Facultad de Educacion, Ciencia y Tecnologia (FECYT)}\\[0.2cm]
+  {\large Carrera de Psicologia}\\[2cm]
+
+  \begin{tcolorbox}[infobox, width=0.92\textwidth]
+    \centering
+    {\Huge\bfseries\textcolor{primary}{CogniFace}}\\[0.5cm]
+    {\LARGE Informe del Proyecto de Investigacion}\\[0.3cm]
+    {\large Hipotesis de Afinidad Facial (IAF):\\
+    Ventaja de Memoria de Trabajo hacia el Sexo Opuesto}
+  \end{tcolorbox}
+
+  \vspace{1.5cm}
+  \begin{tabular}{rl}
+    \textbf{Area de investigacion:}  & Psicologia Cognitiva / Memoria de Trabajo \\[0.3cm]
+    \textbf{Diseno experimental:}    & N-Back con estimulos faciales \\[0.3cm]
+    \textbf{Hipotesis (IAF):}        &
+      $\text{acc}(\text{sexo opuesto}) > \text{acc}(\text{mismo sexo})$ \\[0.3cm]
+    \textbf{Plataforma:}             & \texttt{https://cogniface.web.app} \\[0.3cm]
+    \textbf{Estado del proyecto:}    &
+      \textcolor{success}{\textbf{Operativo --- Recoleccion activa}} \\[0.3cm]
+    \textbf{Fecha:}                  & Junio 2026
+  \end{tabular}
+\end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ============================================================================
+\section{Introduccion}
+
+\subsection{Contexto Cientifico}
+
+La \textbf{memoria de trabajo} (MT) es el sistema cognitivo responsable de mantener
+y manipular informacion de manera temporal mientras se ejecutan tareas complejas
+(Baddeley, 2000). La \textbf{tarea N-Back} ---propuesta originalmente por Kirchner
+(1958)--- es uno de los paradigmas mas utilizados para medir la capacidad de
+actualizacion de informacion en tiempo real.
+
+En el \textbf{N-Back facial}, el participante observa una secuencia de rostros y debe
+indicar cuando el rostro actual coincide con el de $N$ posiciones atras. Esta variante
+es especialmente relevante en cognicion social, ya que los rostros constituyen una
+clase de estimulos biologicamente privilegiada.
+
+\subsection{Hipotesis de Afinidad Facial}
+
+\begin{tcolorbox}[infobox, title={Hipotesis central}]
+\textit{``Los participantes mostraran mayor precision en la deteccion de rostros del
+sexo opuesto frente a rostros del mismo sexo en la tarea N-Back, evidenciando
+una ventaja diferencial en la memoria de trabajo social para estimulos faciales
+con valencia de afinidad.''}
+\end{tcolorbox}
+
+\subsection{Objetivo General}
+
+Desarrollar y validar una plataforma web experimental para administrar la tarea
+N-Back con rostros humanos y cuantificar el Indice de Afinidad Facial (IAF) en
+una muestra de estudiantes universitarios de la UTN-FECYT.
+
+% ============================================================================
+\section{Metodologia}
+
+\subsection{Diseno Experimental}
+
+El estudio emplea un diseno \textbf{intra-sujeto} de una sola sesion. El investigador
+asigna la condicion (N=1 o N=2) antes de que el participante comience.
+
+\begin{longtable}{>{\bfseries}p{4.5cm} p{8.5cm}}
+\toprule
+Variable & Descripcion \\
+\midrule
+\endfirsthead
+\toprule
+Variable & Descripcion \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Variable independiente  & Sexo del rostro mostrado (masculino / femenino) \\
+Variable dependiente 1  & Precision: proporcion de respuestas correctas \\
+Variable dependiente 2  & Tiempo de reaccion (RT) en milisegundos \\
+Variable dependiente 3  & IAF = acc(opuesto) - acc(mismo) \\
+Variable de control 1   & Sexo del participante (registrado en formulario) \\
+Variable de control 2   & Condicion N-Back (N=1 basico / N=2 avanzado) \\
+\end{longtable}
+
+\subsection{Participantes}
+
+\begin{tcolorbox}[infobox, title={Criterios de inclusion}]
+\begin{itemize}[leftmargin=1em]
+  \item Estudiantes de la UTN-FECYT (cualquier carrera)
+  \item Edad entre 18 y 35 anos
+  \item Sin diagnostico reportado de deficit de atencion o trastorno de memoria
+  \item Vision normal o corregida a normal
+  \item Consentimiento informado verbal (protocolo de anonimato)
+\end{itemize}
+\end{tcolorbox}
+
+\subsection{Estimulos}
+
+Los estimulos consisten en \textbf{12 fotografias estandarizadas de rostros}:
+6 femeninos (f01--f06) y 6 masculinos (m01--m06). Todas las imagenes presentan
+expresion neutra y se precargan al inicio de la sesion para eliminar variabilidad
+de latencia de red.
+
+\begin{center}
+\begin{tikzpicture}[
+  face/.style={rectangle, draw=#1, fill=#1!12, rounded corners=3pt,
+               minimum width=1.4cm, minimum height=1.6cm,
+               align=center, font=\tiny\bfseries}
+]
+\foreach \i/\lbl in {0/f01, 1/f02, 2/f03, 3/f04, 4/f05, 5/f06}{
+  \node[face=pinkface] at (\i*1.6, 0) {\large\textcolor{pinkface}{F}\\\lbl};
+}
+\foreach \i/\lbl in {0/m01, 1/m02, 2/m03, 3/m04, 4/m05, 5/m06}{
+  \node[face=blueface] at (\i*1.6, -2.2) {\large\textcolor{blueface}{M}\\\lbl};
+}
+\node[font=\small\color{gray}, anchor=north] at (4, -3.2)
+  {12 rostros unicos estandarizados (6 femeninos + 6 masculinos)};
+\end{tikzpicture}
+\end{center}
+
+\subsection{Procedimiento}
+
+\begin{center}
+\begin{tikzpicture}[
+  flowbox/.style={rectangle, draw=primary, fill=primary!8, rounded corners=3pt,
+               minimum width=2.6cm, minimum height=0.9cm,
+               font=\small\bfseries, align=center},
+  arr/.style={-{Stealth[length=5pt]}, thick, color=primary!70}
+]
+\node[flowbox] (p0) at (0,0)   {Consentimiento};
+\node[flowbox, right=1.5cm of p0] (p1) {Formulario};
+\node[flowbox, right=1.5cm of p1] (p2) {Selector N};
+\node[flowbox, right=1.5cm of p2] (p3) {Instrucciones};
+\node[flowbox, right=1.5cm of p3] (p4) {Practica x5};
+\node[flowbox, below=1cm of p4] (p5) {Experim.\\x20};
+\node[flowbox, left=1.5cm of p5, fill=success!12, draw=success] (p6)
+  {Resultados};
+\node[flowbox, left=1.5cm of p6, fill=gray!10, draw=gray] (p7)
+  {Datos\\guardados};
+
+\draw[arr] (p0)--(p1); \draw[arr] (p1)--(p2); \draw[arr] (p2)--(p3);
+\draw[arr] (p3)--(p4); \draw[arr] (p4)--(p5); \draw[arr] (p5)--(p6);
+\draw[arr] (p6)--(p7);
+\end{tikzpicture}
+\end{center}
+
+\subsection{Temporizado por Ensayo}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+\fill[gray!20, rounded corners=2pt] (0,-0.35) rectangle (10.5, 0.35);
+\fill[gray!45, rounded corners=2pt] (0,-0.35) rectangle (1.5, 0.35);
+\fill[primary!40, rounded corners=2pt] (1.5,-0.35) rectangle (4.3, 0.35);
+\fill[secondary!40, rounded corners=2pt] (4.3,-0.35) rectangle (10.3, 0.35);
+
+\node[font=\bfseries\footnotesize] at (0.75, 0)  {+ 500 ms};
+\node[font=\bfseries\footnotesize] at (2.9,  0)  {Rostro 1000 ms};
+\node[font=\bfseries\footnotesize] at (7.3,  0)  {Resp. 2000 ms};
+\node[font=\small\bfseries] at (11.0, 0) {= 3500 ms};
+
+\draw[decorate, decoration={brace, mirror, amplitude=4pt}]
+  (0,-0.55) -- (1.5,-0.55) node[midway, below=4pt, font=\footnotesize]{Fijacion};
+\draw[decorate, decoration={brace, mirror, amplitude=4pt}]
+  (1.5,-0.55) -- (4.3,-0.55) node[midway, below=4pt, font=\footnotesize]{Estimulo};
+\draw[decorate, decoration={brace, mirror, amplitude=4pt}]
+  (4.3,-0.55) -- (10.3,-0.55) node[midway, below=4pt, font=\footnotesize]{Ventana resp.};
+\end{tikzpicture}
+\end{center}
+
+% ============================================================================
+\section{Metricas de Medicion}
+
+\begin{longtable}{>{\bfseries}p{3.8cm} p{4.5cm} p{5cm}}
+\toprule
+Metrica & Formula & Interpretacion \\
+\midrule
+\endfirsthead
+\toprule
+Metrica & Formula & Interpretacion \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Aciertos (Hits) &
+  Target detectado & Memoria N-Back exitosa \\[0.4em]
+
+Omisiones (Misses) &
+  Target no detectado & Fallo de actualizacion \\[0.4em]
+
+Errores (FA) &
+  Respuesta ante distractor & Inhibicion fallida \\[0.4em]
+
+Error Emocional &
+  Errores en rostros del sexo opuesto & Perturbacion por afinidad \\[0.4em]
+
+Tiempo de Reaccion &
+  $\overline{RT} = \frac{\sum RT_i}{n_{\text{hits}}}$ & Velocidad de procesamiento \\[0.4em]
+
+Precision &
+  $\text{acc} = \frac{\text{hits}+\text{CR}}{\text{total}}$ & Desempeno global \\[0.4em]
+
+\textbf{IAF} &
+  $\text{acc}_{\text{opuesto}} - \text{acc}_{\text{mismo}}$ &
+  \textbf{Hipotesis de afinidad} \\
+\end{longtable}
+
+\subsection{Clasificacion de Respuestas}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|c|c|c|}
+\hline
+\rowcolor{primary!15}
+& \textbf{RESPONDE (ESPACIO)} & \textbf{NO RESPONDE} \\
+\hline
+\textbf{TARGET} &
+\cellcolor{success!20}\textcolor{success!70!black}{Acierto (Hit) acc=1} &
+\cellcolor{errorred!20}\textcolor{errorred!70!black}{Omision (Miss) acc=0} \\
+\hline
+\textbf{DISTRACTOR} &
+\cellcolor{warnyellow!20}\textcolor{warnyellow!70!black}{Falsa Alarma acc=0} &
+\cellcolor{gray!15}{Rechazo Correcto acc=1} \\
+\hline
+\end{tabular}
+\end{center}
+
+% ============================================================================
+\section{Calculo del IAF}
+
+\subsection{Formula Completa}
+
+\begin{tcolorbox}[infobox, title={Indice de Afinidad Facial por sexo del participante}]
+\textbf{Participante masculino:}
+\begin{equation}
+  \text{IAF} = \frac{\#\text{correctos en F}}{\#\text{ensayos F}} -
+               \frac{\#\text{correctos en M}}{\#\text{ensayos M}}
+\end{equation}
+
+\textbf{Participante femenino:}
+\begin{equation}
+  \text{IAF} = \frac{\#\text{correctos en M}}{\#\text{ensayos M}} -
+               \frac{\#\text{correctos en F}}{\#\text{ensayos F}}
+\end{equation}
+
+\medskip
+Donde $F$ = ensayos con rostros femeninos y $M$ = ensayos con rostros masculinos
+(solo ensayos reales, sin practica).
+
+\bigskip
+\centering
+\begin{tabular}{cll}
+\toprule
+\textbf{Valor IAF} & \textbf{Interpretacion} & \textbf{Hipotesis} \\
+\midrule
+$> 0$           & Ventaja hacia sexo opuesto & \textcolor{success}{\bfseries Apoyada} \\
+$= 0$           & Sin diferencia             & Nula \\
+$< 0$           & Ventaja hacia mismo sexo   & \textcolor{errorred}{\bfseries No apoyada} \\
+\bottomrule
+\end{tabular}
+\end{tcolorbox}
+
+\subsection{Ejemplo Ilustrativo}
+
+\begin{tcolorbox}[successbox, title={Ejemplo: Participante Masculino}]
+\begin{tabular}{lll}
+Ensayos con rostros femeninos: & 8 de 10 correctos & $\text{acc}(F) = 0.80$ \\
+Ensayos con rostros masculinos: & 6 de 10 correctos & $\text{acc}(M) = 0.60$ \\
+\end{tabular}\\[0.5em]
+$\text{IAF} = 0.80 - 0.60 = \mathbf{+0.200}$\\[0.3em]
+IAF positivo $\Rightarrow$ hipotesis de afinidad \textbf{apoyada} para este participante.
+\end{tcolorbox}
+
+\subsection{IAF esperado por grupo (simulacion hipotetica)}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+  width=11cm, height=6cm,
+  ylabel={IAF promedio},
+  xlabel={Grupo y condicion},
+  ymin=-0.1, ymax=0.45,
+  xtick={1,2,3,4},
+  xticklabels={Hombres N1, Mujeres N1, Hombres N2, Mujeres N2},
+  ymajorgrids=true,
+  grid style={dashed, gray!40},
+  ybar, bar width=1cm,
+  legend pos=north east,
+  title={Distribucion IAF esperada (hipotesis)}
+]
+\addplot[fill=blueface!60, draw=blueface!80] coordinates {
+  (1,0.18) (2,0.00) (3,0.12) (4,0.00)
+};
+\addplot[fill=pinkface!60, draw=pinkface!80] coordinates {
+  (1,0.00) (2,0.22) (3,0.00) (4,0.15)
+};
+\draw[dashed, thick, errorred] (axis cs:0.3,0) -- (axis cs:4.7,0);
+\addlegendentry{Hombres}
+\addlegendentry{Mujeres}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+% ============================================================================
+\section{Estructura de la Sesion Experimental}
+
+\subsection{Fase de Practica (5 ensayos)}
+
+Durante los 5 ensayos de practica el participante recibe retroalimentacion inmediata:
+
+\begin{center}
+\begin{tabular}{cll}
+\toprule
+Respuesta & Feedback visual & Color \\
+\midrule
+Correcto (Hit o CR) & ``\textbf{Correcto!}'' & \textcolor{success}{Verde} \\
+Incorrecto (Miss o FA) & ``\textbf{Incorrecto}'' & \textcolor{errorred}{Rojo} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Los ensayos de practica \textbf{no} se incluyen en el analisis de datos.
+
+\subsection{Fase Experimental (20 ensayos)}
+
+Los 20 ensayos reales se presentan sin retroalimentacion. La distribucion
+garantiza exactamente 6 targets por bloque, 3 de cada sexo:
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+  width=9cm, height=5.5cm,
+  ybar stacked,
+  bar width=1.8cm,
+  xtick={1,2},
+  xticklabels={N-Back 1, N-Back 2},
+  ylabel={Numero de ensayos},
+  ymin=0, ymax=22,
+  ymajorgrids=true,
+  grid style={dashed, gray!30},
+  legend style={at={(0.98,0.98)}, anchor=north east, font=\small},
+  title={Composicion de ensayos por bloque}
+]
+\addplot[fill=pinkface!60, draw=pinkface] coordinates {(1,3) (2,3)};
+\addplot[fill=blueface!60, draw=blueface] coordinates {(1,3) (2,3)};
+\addplot[fill=gray!30, draw=gray!60] coordinates {(1,14) (2,14)};
+\addlegendentry{Target femenino (3)}
+\addlegendentry{Target masculino (3)}
+\addlegendentry{Distractor (14)}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+Ratio de targets: $6/20 = 30\%$ por bloque, equilibrado por sexo de rostro.
+
+% ============================================================================
+\section{Balance del Proyecto}
+
+\subsection{Estado de Implementacion}
+
+\begin{longtable}{>{\bfseries\small}p{0.5cm} p{6.2cm} c p{4.5cm}}
+\toprule
+\# & Requisito & Estado & Notas \\
+\midrule
+\endfirsthead
+\toprule
+\# & Requisito & Estado & Notas \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+1 & Dark/Light mode en todas las interfaces
+  & \textcolor{success}{\bfseries Completo}
+  & ThemeToggle en 7 pantallas \\
+
+2 & Pantalla bienvenida UTN/FECYT/Psicologia
+  & \textcolor{success}{\bfseries Completo}
+  & WelcomeScreen con branding institucional \\
+
+3 & Descripcion de la tarea cognitiva
+  & \textcolor{success}{\bfseries Completo}
+  & Texto cientifico en WelcomeScreen \\
+
+4 & Formulario sexo, ID participante, edad
+  & \textcolor{success}{\bfseries Completo}
+  & Validacion, botones masculino/femenino \\
+
+5 & Selector N-Back 1 o N-Back 2
+  & \textcolor{success}{\bfseries Completo}
+  & BlockSelector con tarjetas descriptivas \\
+
+6 & Instrucciones por bloque elegido
+  & \textcolor{success}{\bfseries Completo}
+  & Timing, ejemplos visuales, reglas \\
+
+7 & 5 ensayos de practica con feedback
+  & \textcolor{success}{\bfseries Completo}
+  & Retroalimentacion inmediata correcto/incorrecto \\
+
+8 & 20 ensayos experimentales sin feedback
+  & \textcolor{success}{\bfseries Completo}
+  & ExperimentBlock sin overlay \\
+
+9 & Resultados: Aciertos, Omisiones, TR, Error, Error Emocional
+  & \textcolor{success}{\bfseries Completo}
+  & ResultsScreen con IAF verdict \\
+
+10 & Exportacion Excel desde panel admin
+  & \textcolor{success}{\bfseries Completo}
+  & SheetJS, hojas Participantes y Ensayos \\
+
+11 & Deploy Firebase Hosting con CI/CD
+  & \textcolor{success}{\bfseries Completo}
+  & GitHub Actions, cogniface.web.app \\
+
+12 & README orientado al proyecto
+  & \textcolor{success}{\bfseries Completo}
+  & Branding UTN/FECYT, flujo, metricas \\
+\end{longtable}
+
+\begin{tcolorbox}[successbox, title={Resultado del Balance}]
+\textbf{12 de 12 requisitos implementados y verificados.}\\[0.3em]
+Build de produccion: \texttt{0 errores --- 667 modulos --- 1.08 s}\\
+URL activa: \texttt{https://cogniface.web.app}
+\end{tcolorbox}
+
+% ============================================================================
+\section{Protocolo para el Investigador}
+
+\subsection{Antes de la Sesion}
+\begin{enumerate}[leftmargin=1.5em]
+  \item Abrir \texttt{https://cogniface.web.app} en el equipo de laboratorio
+  \item Asignar condicion (N=1 o N=2) al participante segun protocolo
+  \item Entregar ID de participante (ej. \texttt{EST\_2026\_042})
+  \item Verificar que el participante comprende la tarea
+\end{enumerate}
+
+\subsection{Despues de la Sesion}
+\begin{enumerate}[leftmargin=1.5em]
+  \item Acceder a \texttt{https://cogniface.web.app/admin} con credenciales
+  \item Verificar que el registro aparece como ``Completado'' en la tabla
+  \item Revisar el IAF calculado automaticamente
+  \item Exportar Excel actualizado con todos los participantes
+\end{enumerate}
+
+\begin{tcolorbox}[warnbox, title={Seguridad del acceso}]
+Las credenciales del panel admin son exclusivas del investigador.
+No compartir con participantes.
+\end{tcolorbox}
+
+% ============================================================================
+\section{Interpretacion de Resultados}
+
+\begin{longtable}{>{\centering}p{2.5cm} p{5cm} p{5cm}}
+\toprule
+\textbf{Rango IAF} & \textbf{Interpretacion} & \textbf{Recomendacion} \\
+\midrule
+$> +0.10$            & Fuerte afinidad hacia sexo opuesto & Hipotesis claramente apoyada \\
+$[+0.01, +0.10]$     & Afinidad leve o moderada           & Hipotesis apoyada debilmente \\
+$[-0.01, +0.01]$     & Sin diferencia significativa        & Resultado nulo \\
+$< -0.01$            & Ventaja hacia mismo sexo            & Hipotesis no apoyada \\
+\bottomrule
+\end{longtable}
+
+\subsection{Error Emocional}
+
+El Error Emocional cuantifica los errores en rostros del sexo opuesto:
+
+\begin{equation}
+  \text{Error Emocional} =
+  \left|\left\{\,i : \text{face\_gender}_i = \text{opuesto}
+  \;\land\; (\text{miss}_i \lor \text{FA}_i)\right\}\right|
+\end{equation}
+
+Un valor alto puede indicar interferencia cognitiva por la valencia de afinidad.
+
+% ============================================================================
+\section{Consideraciones Eticas}
+
+\begin{tcolorbox}[infobox, title={Protocolo de privacidad}]
+\begin{itemize}[leftmargin=1em]
+  \item Participantes registrados con codigo anonimo (sin nombre ni correo)
+  \item Informacion: sexo, edad, codigo asignado
+  \item Datos en Firestore con acceso restringido al investigador autenticado
+  \item No se comparten datos con terceros
+  \item Participantes pueden abandonar en cualquier momento
+  \item Consentimiento verbal e implicito al iniciar la tarea
+\end{itemize}
+\end{tcolorbox}
+
+% ============================================================================
+\section{Limitaciones}
+
+\begin{enumerate}[leftmargin=1.5em]
+  \item \textbf{Muestra de conveniencia:} Estudiantes UTN-FECYT, limita generalizacion.
+  \item \textbf{Condicion unica:} Un solo bloque por participante (N=1 o N=2), sin
+        contrabalanceo intra-sujeto.
+  \item \textbf{Identidad de rostros:} Pueden ser conocidos por algunos participantes.
+  \item \textbf{Sin medidas complementarias:} Sin screening de MT ni ansiedad social.
+  \item \textbf{Analisis inferencial externo:} El IAF descriptivo calculado requiere
+        pruebas de significancia en SPSS, R o Python para publicacion.
+\end{enumerate}
+
+% ============================================================================
+\section*{Conclusiones}
+
+CogniFace provee una plataforma completa, reproducible y de costo cero para
+administrar el experimento N-Back facial en contexto universitario. La implementacion
+cubre el ciclo completo: reclutamiento, administracion estandarizada de la tarea,
+calculo automatico del IAF y exportacion de datos para analisis inferencial.
+
+\begin{tcolorbox}[successbox, title={Proximos pasos para el equipo investigador}]
+\begin{enumerate}[leftmargin=1.5em]
+  \item Definir tamano muestral objetivo (recomendado: $n \geq 30$ por sexo
+        $\times$ condicion)
+  \item Establecer protocolo de aplicacion estandarizado en laboratorio
+  \item Iniciar recoleccion de datos y monitorear el panel admin
+  \item Exportar Excel al completar la muestra y analizar en software estadistico
+  \item Redactar resultados y discusion para informe final de investigacion
+\end{enumerate}
+\end{tcolorbox}
+
+\vspace{2em}
+\noindent\rule{\textwidth}{0.4pt}\\[0.3em]
+{\small CogniFace v1.0 --- Universidad Tecnica del Norte,
+FECYT, Carrera de Psicologia --- Junio 2026}
+
+\end{document}
