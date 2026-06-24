@@ -1,8 +1,16 @@
+import { useState } from 'react'
 import { calculateAccuracy, calculateIAF, calculateMeanRT } from '../../lib/statistics'
 
+const ERROR_LABELS = {
+  hit: { label: '✓ Acierto', color: '#4CAF8A' },
+  miss: { label: '○ Fallo', color: '#E05C5C' },
+  false_alarm: { label: '✗ Falsa alarma', color: '#E05C5C' },
+  correct_rejection: { label: '— Correcto', color: '#8892A4' },
+}
+
 export default function ResultsScreen({ allTrials, participantGender }) {
+  const [showLog, setShowLog] = useState(false)
   // allTrials is always [...block1Trials, ...block2Trials] — split by position, not trial_number
-  // (both blocks use trial_number 1-20 independently)
   const block1 = allTrials.slice(0, 20)
   const block2 = allTrials.slice(20)
 
@@ -72,11 +80,54 @@ export default function ResultsScreen({ allTrials, participantGender }) {
           </div>
         </div>
 
+        {/* Trial log toggle */}
+        <div className="float-in-d2">
+          <button
+            style={lg.toggleBtn}
+            onClick={() => setShowLog(v => !v)}
+          >
+            {showLog ? '▲ Ocultar detalle de ensayos' : '▼ Ver registro de ensayos'}
+          </button>
+
+          {showLog && (
+            <div style={lg.logWrap}>
+              <TrialLog trials={block1} blockN={1} />
+              {block2.length > 0 && <TrialLog trials={block2} blockN={2} />}
+            </div>
+          )}
+        </div>
+
         <p style={s.thanks} className="float-in-d2">
           Tus datos contribuyen a la investigación sobre memoria de trabajo social.
           No es necesario hacer nada más. 🙌
         </p>
       </div>
+    </div>
+  )
+}
+
+function TrialLog({ trials, blockN }) {
+  return (
+    <div style={lg.block}>
+      <p style={lg.blockTitle}>Bloque N-Back {blockN}</p>
+      {trials.map((t, i) => {
+        const info = ERROR_LABELS[t.error_type] ?? { label: t.error_type, color: '#8892A4' }
+        return (
+          <div key={i} style={lg.row}>
+            <span style={lg.num}>{t.trial_number}</span>
+            <span style={{ color: t.face_gender === 'female' ? '#F472B6' : '#60A5FA', fontSize: 13, width: 14 }}>
+              {t.face_gender === 'female' ? '♀' : '♂'}
+            </span>
+            <span style={{ ...lg.tag, ...(t.is_target ? lg.tagTarget : {}) }}>
+              {t.is_target ? 'Objetivo' : 'Distractor'}
+            </span>
+            <span style={{ ...lg.result, color: info.color }}>{info.label}</span>
+            <span style={lg.rt}>
+              {t.reaction_time ? `${Math.round(t.reaction_time)}ms` : ''}
+            </span>
+          </div>
+        )
+      })}
     </div>
   )
 }
@@ -183,4 +234,45 @@ const bc = {
   row: { display: 'flex', gap: 20 },
   metricLabel: { color: 'var(--color-text-muted)', fontSize: 11, marginBottom: 2 },
   metricValue: { fontSize: 22, fontWeight: 700, color: 'var(--color-text)' },
+}
+
+const lg = {
+  toggleBtn: {
+    width: '100%',
+    background: 'rgba(26,45,66,0.5)',
+    border: '1px solid rgba(42,63,90,0.6)',
+    color: 'var(--color-text-muted)',
+    padding: '10px',
+    borderRadius: 10,
+    cursor: 'pointer',
+    fontSize: 13,
+    fontWeight: 500,
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  logWrap: { display: 'flex', flexDirection: 'column', gap: 12 },
+  block: {
+    background: 'rgba(13,27,42,0.6)',
+    border: '1px solid rgba(42,63,90,0.4)',
+    borderRadius: 12,
+    padding: '14px 16px',
+    maxHeight: 280,
+    overflowY: 'auto',
+  },
+  blockTitle: {
+    fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
+    color: 'var(--color-text-muted)', marginBottom: 10,
+  },
+  row: {
+    display: 'flex', alignItems: 'center', gap: 8,
+    padding: '5px 0', borderBottom: '1px solid rgba(42,63,90,0.3)', fontSize: 12,
+  },
+  num: { width: 22, color: 'var(--color-text-muted)', fontSize: 11, flexShrink: 0 },
+  tag: {
+    fontSize: 10, padding: '2px 7px', borderRadius: 10,
+    background: 'rgba(42,63,90,0.6)', color: 'var(--color-text-muted)', flexShrink: 0,
+  },
+  tagTarget: { background: 'rgba(108,99,255,0.2)', color: '#A78BFA' },
+  result: { flex: 1, fontWeight: 500 },
+  rt: { fontSize: 11, color: 'var(--color-text-muted)', flexShrink: 0, minWidth: 40, textAlign: 'right' },
 }
