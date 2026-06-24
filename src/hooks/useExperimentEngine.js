@@ -158,6 +158,7 @@ export function useExperimentEngine(n, isPractice = false) {
     lastFeedback: state.lastFeedback,
     results: state.results,
     images: state.images,
+    respondedThisTrial: state.respondedThisTrial,
     start,
     respond,
   }
