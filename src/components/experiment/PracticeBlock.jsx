@@ -54,7 +54,7 @@ export default function PracticeBlock({ n, onComplete }) {
 
       {/* Main stimulus area */}
       <div style={s.main}>
-        {/* Fixation cross OR feedback from previous trial */}
+        {/* Fixation cross + optional feedback overlay */}
         {phase === 'fixation' && !lastFeedback && <FixationView />}
         {phase === 'fixation' && lastFeedback && (
           <FeedbackOverlay result={lastFeedback} n={n} trialIndex={trialIndex} />
@@ -64,7 +64,11 @@ export default function PracticeBlock({ n, onComplete }) {
           <StimulusDisplay imageSrc={imageSrc} faceId={currentTrial?.face_id} />
         )}
 
-        {phase === 'response' && <EmptyFaceView responded={respondedThisTrial} />}
+        {/* Response phase: show empty view + immediate feedback when responded */}
+        {phase === 'response' && !lastFeedback && <EmptyFaceView responded={respondedThisTrial} />}
+        {phase === 'response' && lastFeedback && (
+          <FeedbackOverlay result={lastFeedback} n={n} trialIndex={trialIndex} />
+        )}
       </div>
 
       {/* Bottom response area */}

@@ -32,6 +32,28 @@ export function calculateMeanRT(trials, faceGender) {
   return filtered.reduce((sum, t) => sum + t.reaction_time, 0) / filtered.length
 }
 
+// Emotional errors = miss or false_alarm on opposite-sex faces
+export function calculateEmotionalErrors(trials, participantGender) {
+  const oppositeSex = participantGender === 'male' ? 'female' : 'male'
+  return trials.filter(t =>
+    !t.is_practice &&
+    t.face_gender === oppositeSex &&
+    (t.error_type === 'miss' || t.error_type === 'false_alarm')
+  ).length
+}
+
+export function calculateHits(trials) {
+  return trials.filter(t => !t.is_practice && t.error_type === 'hit').length
+}
+
+export function calculateMisses(trials) {
+  return trials.filter(t => !t.is_practice && t.error_type === 'miss').length
+}
+
+export function calculateFalseAlarms(trials) {
+  return trials.filter(t => !t.is_practice && t.error_type === 'false_alarm').length
+}
+
 export function aggregateForCharts(participants) {
   const byGroup = { male: [], female: [] }
   for (const p of participants) {

@@ -3,33 +3,29 @@ import { createContext, useContext, useReducer } from 'react'
 const initialState = {
   step: 'welcome',
   gender: null,
+  age: null,
+  participantCode: '',
+  nBack: null,
   participantId: null,
-  trialsBlock1: [],
-  trialsBlock2: [],
+  trials: [],
 }
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'GO_GENDER':
-      return { ...state, step: 'gender' }
-    case 'SET_GENDER':
-      return { ...state, gender: action.gender, step: 'instructions1' }
+    case 'GO_FORM':
+      return { ...state, step: 'form' }
+    case 'SET_PARTICIPANT':
+      return { ...state, gender: action.gender, age: action.age, participantCode: action.code, step: 'blockSelect' }
     case 'SET_PARTICIPANT_ID':
       return { ...state, participantId: action.id }
-    case 'START_PRACTICE1':
-      return { ...state, step: 'practice1' }
-    case 'START_EXPERIMENT1':
-      return { ...state, step: 'experiment1' }
-    case 'COMPLETE_BLOCK1':
-      return { ...state, trialsBlock1: action.trials, step: 'break' }
-    case 'START_INSTRUCTIONS2':
-      return { ...state, step: 'instructions2' }
-    case 'START_PRACTICE2':
-      return { ...state, step: 'practice2' }
-    case 'START_EXPERIMENT2':
-      return { ...state, step: 'experiment2' }
-    case 'COMPLETE_BLOCK2':
-      return { ...state, trialsBlock2: action.trials, step: 'results' }
+    case 'SET_NBACK':
+      return { ...state, nBack: action.n, step: 'instructions' }
+    case 'START_PRACTICE':
+      return { ...state, step: 'practice' }
+    case 'START_EXPERIMENT':
+      return { ...state, step: 'experiment' }
+    case 'COMPLETE_EXPERIMENT':
+      return { ...state, trials: action.trials, step: 'results' }
     default:
       return state
   }

@@ -1,6 +1,33 @@
 import { Fragment, useState } from 'react'
+import * as XLSX from 'xlsx'
 import { deleteParticipant, getParticipantTrials } from '../../lib/firestoreService'
 import { useMobile } from '../../hooks/useMobile'
+
+function exportToExcel(participants) {
+  const wb = XLSX.utils.book_new()
+
+  // Sheet 1: participant summary
+  const summaryRows = participants.map(p => ({
+    'ID Firestore':      p.id,
+    'ID Participante':   p.participant_code ?? '—',
+    'Sexo':              p.gender === 'male' ? 'Masculino' : 'Femenino',
+    'Edad':              p.age ?? '—',
+    'N-Back':            p.n_back ?? '—',
+    'Completado':        p.completed ? 'Sí' : 'No',
+    'IAF':               p.iaf ?? '—',
+    'Aciertos':          p.hits ?? '—',
+    'Omisiones':         p.misses ?? '—',
+    'Errores':           p.false_alarms ?? '—',
+    'Error Emocional':   p.emotional_errors ?? '—',
+    'TR Promedio (ms)':  p.mean_rt != null ? Math.round(p.mean_rt) : '—',
+    'Precisión':         p.accuracy != null ? (p.accuracy * 100).toFixed(1) + '%' : '—',
+    'Fecha':             p.timestamp?.toDate ? p.timestamp.toDate().toLocaleString('es') : '—',
+  }))
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(summaryRows), 'Participantes')
+
+  const ts = new Date().toISOString().slice(0, 10)
+  XLSX.writeFile(wb, `cogniface_participantes_${ts}.xlsx`)
+}
 
 const ERROR_LABELS = {
   hit: 'Acierto',
@@ -127,6 +154,15 @@ export default function ParticipantsTable({ participants, onRefresh }) {
 
   return (
     <div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 14 }}>
+        <button
+          style={xls.btn}
+          onClick={() => exportToExcel(participants)}
+          title="Descargar datos en formato Excel"
+        >
+          ⬇ Exportar Excel
+        </button>
+      </div>
       <SummaryBar participants={participants} />
 
       {isMobile ? (
@@ -297,6 +333,10 @@ const tbl = {
   btnDetail: { background: 'rgba(42,63,90,0.8)', color: 'var(--color-text)', border: 'none', padding: '6px 12px', borderRadius: 6, cursor: 'pointer', marginRight: 8, fontSize: 12, fontWeight: 500 },
   btnDelete: { background: 'rgba(61,26,26,0.8)', color: '#E05C5C', border: 'none', padding: '6px 12px', borderRadius: 6, cursor: 'pointer', fontSize: 12, fontWeight: 500 },
   detailCell: { background: 'rgba(13,27,42,0.8)', padding: '14px 16px' },
+}
+
+const xls = {
+  btn: { background: 'rgba(76,175,138,0.15)', border: '1px solid rgba(76,175,138,0.4)', color: '#4CAF8A', padding: '8px 18px', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 },
 }
 
 const det = {

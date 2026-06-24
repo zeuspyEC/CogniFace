@@ -49,7 +49,10 @@ function reducer(state, action) {
     case 'RESPOND': {
       if (state.respondedThisTrial || state.phase !== 'response') return state
       const rt = performance.now() - state.stimulusOnset
-      return { ...state, respondedThisTrial: true, pendingRT: rt }
+      const trial = state.sequence[state.trialIndex]
+      // Immediate feedback: hit if they pressed AND it was a target
+      const immediateResult = trial?.is_target ? 'correct' : 'incorrect'
+      return { ...state, respondedThisTrial: true, pendingRT: rt, lastFeedback: immediateResult }
     }
 
     case 'END_TRIAL': {

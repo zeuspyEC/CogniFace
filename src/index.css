@@ -2,13 +2,27 @@
 :root {
   --color-bg: #0D1B2A;
   --color-surface: #1A2D42;
+  --color-surface2: #233347;
   --color-accent: #6C63FF;
   --color-accent2: #A78BFA;
   --color-text: #E8EAF0;
   --color-text-muted: #8892A4;
   --color-success: #4CAF8A;
   --color-error: #E05C5C;
+  --color-border: #2A3F5A;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+[data-theme="light"] {
+  --color-bg: #F0F4F8;
+  --color-surface: #FFFFFF;
+  --color-surface2: #E8EEF5;
+  --color-accent: #5A52E0;
+  --color-accent2: #7C6FE8;
+  --color-text: #1A2D42;
+  --color-text-muted: #5A6B7E;
+  --color-success: #2E8B5A;
+  --color-error: #C0392B;
+  --color-border: #C8D6E5;
 }
 html, body, #root {
   height: 100%;

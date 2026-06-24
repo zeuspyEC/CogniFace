@@ -1,11 +1,11 @@
 import { aggregateForCharts } from '../../lib/statistics'
 import { useMobile } from '../../hooks/useMobile'
 import IAFWidget from './charts/IAFWidget'
-import AccuracyBarChart from './charts/AccuracyBarChart'
+import GroupComparisonChart from './charts/GroupComparisonChart'
 import MemoryLoadChart from './charts/MemoryLoadChart'
 import ReactionTimeChart from './charts/ReactionTimeChart'
-import HypothesisPieChart from './charts/HypothesisPieChart'
-import IAFScatterChart from './charts/IAFScatterChart'
+import SlopeChart from './charts/SlopeChart'
+import LollipopChart from './charts/LollipopChart'
 import IAFDistributionChart from './charts/IAFDistributionChart'
 
 export default function ChartsPanel({ participants }) {
@@ -27,29 +27,30 @@ export default function ChartsPanel({ participants }) {
   }
 
   const cols2 = isMobile ? '1fr' : '1fr 1fr'
+  const gap = isMobile ? 12 : 20
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? 12 : 20 }}>
-      {/* Row 1: Global IAF banner */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap }}>
+      {/* 1. Global IAF verdict banner */}
       <IAFWidget globalIAF={globalIAF} maleCount={maleCount} femaleCount={femaleCount} />
 
-      {/* Row 2: IAF by block + Cognitive load */}
-      <div style={{ display: 'grid', gridTemplateColumns: cols2, gap: isMobile ? 12 : 20 }}>
-        <AccuracyBarChart participants={completed} />
+      {/* 2. Individual lollipop — most transparent view of the data */}
+      <LollipopChart participants={completed} />
+
+      {/* 3. Group means with error bars + Cognitive load line chart */}
+      <div style={{ display: 'grid', gridTemplateColumns: cols2, gap }}>
+        <GroupComparisonChart participants={completed} />
         <MemoryLoadChart participants={completed} />
       </div>
 
-      {/* Row 3: Hypothesis pie + Participation status */}
-      <div style={{ display: 'grid', gridTemplateColumns: cols2, gap: isMobile ? 12 : 20 }}>
-        <HypothesisPieChart participants={completed} />
+      {/* 4. IAF distribution histogram + Participation breakdown */}
+      <div style={{ display: 'grid', gridTemplateColumns: cols2, gap }}>
+        <IAFDistributionChart participants={completed} />
         <ReactionTimeChart participants={participants} />
       </div>
 
-      {/* Row 4: IAF distribution histogram (full width) */}
-      <IAFDistributionChart participants={completed} />
-
-      {/* Row 5: N1 vs N2 scatter (full width) */}
-      <IAFScatterChart participants={completed} />
+      {/* 5. Slope chart: N-1 → N-2 per participant (full width — rich detail) */}
+      <SlopeChart participants={completed} />
     </div>
   )
 }
