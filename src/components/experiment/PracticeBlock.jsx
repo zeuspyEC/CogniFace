@@ -95,22 +95,53 @@ function CountdownScreen({ count, label }) {
   )
 }
 
-function FeedbackOverlay({ result, n, trialIndex }) {  // shows during next fixation (500ms)
-  const isCorrect = result === 'correct'
+const FEEDBACK_CONFIG = {
+  hit: {
+    icon: '✓',
+    color: 'var(--color-success)',
+    bg: 'rgba(76,175,138,0.15)',
+    border: 'rgba(76,175,138,0.5)',
+    title: '¡Correcto!',
+    hint: (n) => '¡Bien! Detectaste el rostro que coincidía.',
+  },
+  false_alarm: {
+    icon: '✗',
+    color: 'var(--color-error)',
+    bg: 'rgba(224,92,92,0.15)',
+    border: 'rgba(224,92,92,0.5)',
+    title: 'Falsa alarma',
+    hint: (n) => `Ese rostro no coincidía con hace ${n === 1 ? '1 turno' : '2 turnos'}. Solo responde cuando sean iguales.`,
+  },
+  miss: {
+    icon: '○',
+    color: '#F59E0B',
+    bg: 'rgba(245,158,11,0.15)',
+    border: 'rgba(245,158,11,0.5)',
+    title: '¡Lo perdiste!',
+    hint: (n) => `Era el mismo rostro de hace ${n === 1 ? '1 turno' : '2 turnos'}. Presiona ESPACIO cuando coincidan.`,
+  },
+  correct_rejection: {
+    icon: '✓',
+    color: 'var(--color-success)',
+    bg: 'rgba(76,175,138,0.10)',
+    border: 'rgba(76,175,138,0.35)',
+    title: 'Bien',
+    hint: (n) => 'Correcto, ese rostro no coincidía. No había que responder.',
+  },
+}
+
+function FeedbackOverlay({ result, n, trialIndex }) {
+  const cfg = FEEDBACK_CONFIG[result] ?? FEEDBACK_CONFIG['miss']
   return (
     <div key={`fb-${trialIndex}`} style={fb.container}>
-      <div style={{ ...fb.badge, background: isCorrect ? 'rgba(76,175,138,0.15)' : 'rgba(224,92,92,0.15)', borderColor: isCorrect ? 'rgba(76,175,138,0.5)' : 'rgba(224,92,92,0.5)' }} className="feedback-slide">
-        <span style={{ fontSize: 28 }}>{isCorrect ? '✓' : '✗'}</span>
+      <div
+        style={{ ...fb.badge, background: cfg.bg, borderColor: cfg.border }}
+        className="feedback-slide"
+      >
+        <span style={{ fontSize: 28, color: cfg.color }}>{cfg.icon}</span>
         <div>
-          <p style={{ ...fb.title, color: isCorrect ? 'var(--color-success)' : 'var(--color-error)' }}>
-            {isCorrect ? '¡Correcto!' : 'Incorrecto'}
-          </p>
-          <p style={fb.hint}>
-            {isCorrect
-              ? 'Bien detectado 👍'
-              : `Recuerda: presiona ESPACIO si el rostro coincide con hace ${n === 1 ? '1 turno' : '2 turnos'}`
-            }
-          </p>
+          <p style={{ ...fb.title, color: cfg.color }}>{cfg.title}</p>
+          <p style={fb.hint}>{cfg.hint(n)}</p>
         </div>
       </div>
     </div>

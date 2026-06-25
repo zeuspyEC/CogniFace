@@ -50,8 +50,8 @@ function reducer(state, action) {
       if (state.respondedThisTrial || state.phase !== 'response') return state
       const rt = performance.now() - state.stimulusOnset
       const trial = state.sequence[state.trialIndex]
-      // Immediate feedback: hit if they pressed AND it was a target
-      const immediateResult = trial?.is_target ? 'correct' : 'incorrect'
+      // Immediate feedback with exact error type so PracticeBlock can show specific message
+      const immediateResult = trial?.is_target ? 'hit' : 'false_alarm'
       return { ...state, respondedThisTrial: true, pendingRT: rt, lastFeedback: immediateResult }
     }
 
@@ -77,7 +77,7 @@ function reducer(state, action) {
       return {
         ...state,
         results: [...state.results, result],
-        lastFeedback: accuracy === 1 ? 'correct' : 'incorrect',
+        lastFeedback: errorType,  // 'hit' | 'miss' | 'false_alarm' | 'correct_rejection'
         respondedThisTrial: false,
         pendingRT: null,
         phase: isDone ? 'done' : 'fixation',
